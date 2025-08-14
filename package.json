@@ -1,0 +1,29 @@
+{
+  "name": "automacoes-api-js",
+  "version": "1.0.0",
+  "description": "Projeto para automação de testes de API usando JavaScript, preparado para integração com servidor de mocks.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest",
+    "start:mock": "msw init public/ --save"
+  },
+  "keywords": [
+    "api",
+    "test",
+    "automation",
+    "mock",
+    "jest",
+    "supertest",
+    "msw"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.3",
+    "jest": "^29.0.0",
+    "jest-html-reporter": "^4.3.0",
+    "msw": "^1.2.1",
+    "supertest": "^6.3.3"
+  }
+}
