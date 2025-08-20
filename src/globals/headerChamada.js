@@ -9,10 +9,10 @@ class HeaderChamada {
    */
   constructor(entidade, rota, request) {
     this.headers = {
-      'X-SINQIA-Rota': rota, // Valor da rota
-      'X-SINQIA-Client-Key': entidade.clientKey, // Valor do clientKey da entidade
-      'Authorization': entidade.basic, // Valor do basic da entidade
-      'X-SINQIA-Request': request // Valor específico da chamada
+      "X-SINQIA-Rota": rota, // Valor da rota
+      "X-SINQIA-Client-Key": entidade.clientKey, // Valor do clientKey da entidade
+      Authorization: entidade.basic, // Valor do basic da entidade
+      "X-SINQIA-Request": request, // Valor específico da chamada
     };
   }
 
