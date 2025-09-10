@@ -5,6 +5,14 @@
   "main": "src/index.js",
   "scripts": {
     "test": "jest",
+    "test:default": "jest --config jest.config.js",
+    "test:bdd": "jest --config jest.config.json",
+    "test:report": "jest --config jest.config.js --verbose",
+    "test:watch": "jest --config jest.config.js --watch",
+    "test:coverage": "jest --config jest.config.js --coverage",
+    "test:file": "jest --config jest.config.js --testNamePattern",
+    "generate:bdd": "node src/exemploGeradorBDD.js",
+    "generate:bdd:all": "node -e \"require('./src/exemploGeradorBDD').processarTodosOsTestes()\"",
     "start:mock": "msw init public/ --save"
   },
   "keywords": [

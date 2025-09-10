@@ -7,18 +7,18 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const path = require("path");
 const fs = require("fs");
 const PayloadChamada = require("./globals/payloadChamada");
+const supertest = require("supertest");
+const entidades = require("./globals/entidades");
+const HeaderChamada = require("./globals/headerChamada");
+const obterToken = require("./obterToken");
 
-describe("Swite Teste - Cadastros", () => {
-  // Aumenta o timeout para 20 segundos
-  jest.setTimeout(20000);
-  const supertest = require("supertest");
-  const entidades = require("./globals/entidades");
-  const HeaderChamada = require("./globals/headerChamada");
-  const obterToken = require("./obterToken");
+// Seleciona a entidade para o teste
+const entidade = entidades.find((e) => e.nome === "VISAOPREV");
+const rotaHeader = "Cadastro";
 
-  // Seleciona a entidade para o teste
-  const entidade = entidades.find((e) => e.nome === "VISAOPREV");
-  const rotaHeader = "Cadastro";
+jest.setTimeout(20000);
+
+describe("Suite de Teste API - Cadastros", () => {
   const rotaUrl = "/Cadastro/perfilinvestimento";
 
   it("Cadastro - Get/Cadastro/perfilinvestimento - Período maior que 1 ano- Status code 400", async () => {
@@ -135,19 +135,19 @@ describe("Swite Teste - Cadastros", () => {
     expect(response.status).toBe(200); // Espera status 200
     expect(Array.isArray(response.body.Data)).toBe(true); // campos deve ser array
     expect(response.body.Data[0]).toHaveProperty("Nome");
-    expect(response.body.Data[0]).toHaveProperty("ContratoParticipante"); 
-    expect(response.body.Data[0]).toHaveProperty("CPF");
-    expect(response.body.Data[0]).toHaveProperty("Matricula");
-    expect(response.body.Data[0]).toHaveProperty("Empregador");
-    expect(response.body.Data[0]).toHaveProperty("PerfilAtual");
-    expect(response.body.Data[0]).toHaveProperty("DataUltimaAlteracao");
-    expect(response.body.Data[0]).toHaveProperty("DataInicioVigencia");
-    expect(response.body.Data[0]).toHaveProperty("NomeSituacao");    
+    expect(response.body.Data[0]).toHaveProperty("CPF"); 
+    expect(response.body.Data[0]).toHaveProperty("Banco");
+    expect(response.body.Data[0]).toHaveProperty("Agencia");
+    expect(response.body.Data[0]).toHaveProperty("NumeroContaBancaria");
+    expect(response.body.Data[0]).toHaveProperty("DigitoVerificadorContaBancaria");
+    expect(response.body.Data[0]).toHaveProperty("NomeSituacao");
     expect(response.body.Data[0]).toHaveProperty("DataSolicitacao");
-    expect(response.body.Data[0]).toHaveProperty("DataCompetencia");    
-    expect(response.body.Data[0]).toHaveProperty("DataAtualizacao");
+    expect(response.body.Data[0]).toHaveProperty("NomeSituacao");    
+    expect(response.body.Data[0]).toHaveProperty("DataCompetencia");
+    expect(response.body.Data[0]).toHaveProperty("DataAtualizacao");    
     expect(response.body.Data[0]).toHaveProperty("NomeSolicitante");
     expect(response.body.Data[0]).toHaveProperty("UsuarioSolicitante");
+
   });
 
   it("Cadastro - Get/Cadastro/perfilinvestimento - Sem os  campos opcionais nulos - Status code 200", async () => {
@@ -344,6 +344,165 @@ describe("Swite Teste - Cadastros", () => {
     expect(Array.isArray(response.body.Data)).toBe(true); // campos deve ser array
     expect(response.body.Data.length).toBe(0); // Verifica que não há dados retornados  
   });
+});
 
+describe("Suite de Teste API -  Cadastros V2", () => {
+  const rotaUrl = "/Cadastro/v2/pessoas_fisicas_associadas/participante";
+
+  it("Cadastro - Get/Cadastro/v2/pessoas_fisicas_associadas/participante - Dados Válidos - Status code 200",async () => {
+        //contratoParticipante/tipoAssociacaoPessoaFisicaID - 83238/11
+    const sinqiaRequestHeader ="NzQsMTQwLDg3LDIzOSwxNDgsMjExLDg3LDY4LDEyMiwyMzcsMTQ3LDE0NiwxNjYsMTcxLDIxOCwxNzUsMTQ5LDI2LDE0OSwyNTQsMjQ4LDE3OSw3NCwxNzQsMTE2LDM5LDEzNCwxNTgsMTYwLDEyNCw0NSwxMDksODUsMjIyLDE2MiwyMDAsNzcsODIsMjMyLDcyLDQ1LDE2LDEzLDI4LDE0NCwxMzgsMTE0LDY0LDIyMiwyMjIsMjI2LDIwMyw0MiwyMzMsMTQ3LDIxNSw3NCwyNSwxOTcsMjM3LDIxNiwxNzEsMjA4LDE1NCwxMDgsNjUsMjAzLDI4LDg1LDE2MCw1NCwxMjIsMTgyLDExMCwxNjMsMTA5LDYyLDI0NywxMTUsMTg5LDE2NCwyNSwyMjksMTAsMTU5LDE0MywzNCwyMDcsMjUzLDE3MSwzMSw5NywxNDMsNDEsMTA2LDE5OSwyMDksNDgsMjI4LDk1LDE0OSwyMzYsNjEsMTkxLDU5LDMwLDE2OSwyMTEsMTk3LDgyLDEyNyw5NSwxNTMsMTY4LDU5LDIwMCwyMzcsMTgwLDgxLDU5LDE1Niw2NCwyMjcsMjAyLDIyNCw3NCwxODEsMjIx";
+    let headerChamada = new HeaderChamada(entidade, rotaHeader, sinqiaRequestHeader);
+    const params = {};
+
+    // Obtém o token Bearer antes do teste
+    await obterToken(entidade.nome);
+    const headers = headerChamada.getHeaders();
+    headers["Authorization"] = `Bearer ${global.Bearer}`;
+
+    // Realiza a chamada GET para a API
+    const response = await supertest(global.baseUrl)
+      .get(rotaUrl)
+      .set(headers);
+      //.query(params);
+
+    const payload = new PayloadChamada("GET", global.baseUrl + rotaUrl, headers, response.body, params);
+
+    if (response.status !== 200) {
+
+      console.log(payload.toString());
+      console.log(response.body);
+      const now = new Date();
+      const pad = (n) => n.toString().padStart(2, "0");
+      const logName = `log_perfilinvestimento_${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}-${now.getMilliseconds()}.txt`;
+      const logPath = path.join(__dirname, "../logsexecucao", logName);
+      fs.writeFileSync(logPath, payload.toString());   
+    }
+      // Grava o payload no arquivo de log de execução
+
+    
+    // Asserts para validar o resultado
+    expect(response.status).toBe(200); // Espera status 200
+    expect(Array.isArray(response.body.Data)).toBe(true); // campos deve ser array
+    expect(response.body.Data[0]).toHaveProperty("PessoaFisicaId");
+    expect(response.body.Data[0]).toHaveProperty("Nome"); 
+    expect(response.body.Data[0]).toHaveProperty("Cpf");
+    expect(response.body.Data[0]).toHaveProperty("DataNascimento");
+    expect(response.body.Data[0]).toHaveProperty("DataInicio");
+    expect(response.body.Data[0]).toHaveProperty("DataFim");
+    expect(response.body.Data[0]).toHaveProperty("TipoVinculo");
+  });
+
+  it("Cadastro - Get/Cadastro/v2/pessoas_fisicas_associadas/participante - Dados Nulos - Status code 200",async () => {
+    //contratoParticipante/tipoAssociacaoPessoaFisicaID - 83238/11
+    const sinqiaRequestHeader ="MTE5LDE3Myw2Nyw4LDQ5LDEwLDg3LDI0MSw4LDUyLDE5MSw2OCwyMzQsNDIsMTM0LDIzMywxMTYsMTk1LDk5LDE5MywxNjgsMTkyLDI4LDEwLDE2NSwxODEsNzEsMzQsMjAsMTU1LDE1MCw1OSwyMDIsMTI5LDIyMCwxODUsNTcsMTkzLDUsNTgsMTYyLDE5NiwxOTYsNzIsMTAwLDkwLDM4LDU5LDYsNjUsMSwxNDQsMTkzLDEwNSwxNjUsMTQxLDc0LDE5NiwxMTYsMTYwLDEyMiwxMTQsMjM2LDEzOSwxOTcsNTMsMTE3LDEyMCwxOTQsNTMsMzYsNjYsMjAxLDY2LDIyLDI0NCwyMjMsMjUsNDksMTkyLDI0MCwxNTksMjIzLDIyMSwxNzIsMTY2LDk3LDIyMiwxMzIsMTg1LDQ0LDIyNCwxMzQsMTgxLDIxNywxODYsNzgsMTg2LDg4LDExMiwyMjYsODAsNTEsMTYwLDIyMiw1Nyw3OCwyMDYsMCwxNSwyMzgsNzYsODgsMjQ0LDE2OSwxMTIsMjMyLDE4OSwxODIsOCwxOTIsMTA4LDE0OCwxNTQsNzEsOTAsMzcsMTkw";
+    let headerChamada = new HeaderChamada(entidade, rotaHeader, sinqiaRequestHeader);
+    const params = {};
+
+    // Obtém o token Bearer antes do teste
+    await obterToken(entidade.nome);
+    const headers = headerChamada.getHeaders();
+    headers["Authorization"] = `Bearer ${global.Bearer}`;
+
+    // Realiza a chamada GET para a API
+    const response = await supertest(global.baseUrl)
+      .get(rotaUrl)
+      .set(headers);
+      //.query(params);
+
+    const payload = new PayloadChamada("GET", global.baseUrl + rotaUrl, headers, response.body, params);
+
+    if (response.status !== 200) {
+
+      console.log(payload.toString());
+      console.log(response.body);
+      const now = new Date();
+      const pad = (n) => n.toString().padStart(2, "0");
+      const logName = `log_perfilinvestimento_${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}-${now.getMilliseconds()}.txt`;
+      const logPath = path.join(__dirname, "../logsexecucao", logName);
+      fs.writeFileSync(logPath, payload.toString());   
+    }
+   
+    // Asserts para validar o resultado
+    expect(response.status).toBe(200); // Espera status 200
+    expect(response.body.Message).toBe("The request is invalid."); 
+  });
+
+  it("Cadastro - Get/Cadastro/v2/pessoas_fisicas_associadas/participante - contratoParticipante válido  e tipoAssociacaoPessoaFisicaID nulo - Status code 200",async () => {
+    //contratoParticipante/tipoAssociacaoPessoaFisicaID - 83238/11
+    const sinqiaRequestHeader ="MTYsMTc5LDQzLDE4Nyw5Myw1NSwxMzMsMTcsNjksMTgxLDQzLDE1NiwyMTQsMjQwLDIwNCw1NSw4MCwyMCwyMDQsMjQwLDEwMywyMTksMjEyLDk0LDI1MiwxNDEsMjI3LDU3LDE3NiwyMDcsMjI4LDE4NywyMzIsMTcyLDE2LDE3NywzNCwzMiwzOSw3MSw3NSwxMCwxODAsNjksMjAsODksMjQ1LDEzNSwxNjMsMTQwLDIwMiwyMTIsNDAsNDMsMzcsMTU5LDEzMywyMjcsOTQsMjUyLDEyMCwxMjUsNzgsMjMxLDE2MywxMzYsMTM2LDEzNSwyMDMsMTIyLDYxLDExNiwxNTgsOTQsODUsNjAsMTUwLDEzNSwyMDIsMTM3LDk0LDEzNSw3MSwyNTAsNzMsMjAxLDQ5LDg5LDEyLDE3MywxMDYsMjQ4LDQsMTg0LDQ2LDE0NCwxNzAsMCwxMSwyMjcsNzMsMTI0LDEyMSwxMzEsODcsMjIwLDE2OSw0MSwyMjcsMTM4LDQwLDIyNSw4NCwxNDUsMjIyLDQyLDIwMiwxODgsODAsMjU0LDI5LDgyLDI1MCwyNTUsMTYzLDE1MywyMTAsMjI2";
+    let headerChamada = new HeaderChamada(entidade, rotaHeader, sinqiaRequestHeader);
+    const params = {};
+
+    // Obtém o token Bearer antes do teste
+    await obterToken(entidade.nome);
+    const headers = headerChamada.getHeaders();
+    headers["Authorization"] = `Bearer ${global.Bearer}`;
+
+    // Realiza a chamada GET para a API
+    const response = await supertest(global.baseUrl)
+      .get(rotaUrl)
+      .set(headers);
+      //.query(params);
+
+    const payload = new PayloadChamada("GET", global.baseUrl + rotaUrl, headers, response.body, params);
+
+    if (response.status !== 200) {
+
+      console.log(payload.toString());
+      console.log(response.body);
+      const now = new Date();
+      const pad = (n) => n.toString().padStart(2, "0");
+      const logName = `log_perfilinvestimento_${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}-${now.getMilliseconds()}.txt`;
+      const logPath = path.join(__dirname, "../logsexecucao", logName);
+      fs.writeFileSync(logPath, payload.toString());   
+    }
+   
+    // Asserts para validar o resultado
+    expect(response.status).toBe(200); // Espera status 200
+    expect(Array.isArray(response.body.Data)).toBe(true); // campos deve ser array
+    expect(response.body.Data[0]).toHaveProperty("PessoaFisicaId");
+    expect(response.body.Data[0]).toHaveProperty("Nome"); 
+    expect(response.body.Data[0]).toHaveProperty("Cpf");
+    expect(response.body.Data[0]).toHaveProperty("DataNascimento");
+    expect(response.body.Data[0]).toHaveProperty("DataInicio");
+    expect(response.body.Data[0]).toHaveProperty("DataFim");
+    expect(response.body.Data[0]).toHaveProperty("TipoVinculo");
+  });
+
+  it("Cadastro - Get/Cadastro/v2/pessoas_fisicas_associadas/participante - contratoParticipante nulo  e tipoAssociacaoPessoaFisicaID valido - Status code 200",async () => {
+    //contratoParticipante/tipoAssociacaoPessoaFisicaID - 83238/11
+    const sinqiaRequestHeader ="MTYxLDQ3LDkzLDIwNCwxNjYsNTMsMTc5LDE1LDE0NCwxMDAsOTQsMTIzLDE3NiwzMSwyOCw1NiwyNDEsMTAwLDE4OCw2MiwxNTAsMTMzLDEzMSw2NiwxNDYsNzIsMTg4LDE0NywyMDMsNTMsMzcsMTU5LDc1LDE3MSwxMjIsOTUsMCw0NiwyMjcsNzAsMTIyLDI4LDE3MCw1Niw1NSwxMDIsMTEzLDE5LDkyLDE1NywyMzUsMTY3LDU1LDEzNyw2Nyw2Miw0NiwxMjgsNjcsMTgyLDE2NSwyMzgsMjQzLDIxMSw1MCwxMDUsMjQ1LDE1MywxMzMsMTIwLDIzNCw4NCw1Nyw5NSwxOSwyNDMsMTE5LDE0MywyMTksMTkzLDIwMSwxMTEsMTg3LDE2MSw5MiwyMTUsMTUwLDIyLDMxLDU4LDM4LDIzNSwxNSwyMTEsNjIsMTY4LDQyLDE3MiwxMzksMzAsMTAzLDEwOSwxNSwyNTUsMjM0LDc5LDI1NCwyNTAsMTcxLDE3MywxNzIsMTEyLDIwMywyMDYsMTE2LDEyNSwyNTQsMjI2LDEyNCwyNDgsOTMsMjEsNDIsMjIyLDE2NywyNDUsMTQzLDEyNQ==";
+    let headerChamada = new HeaderChamada(entidade, rotaHeader, sinqiaRequestHeader);
+    const params = {};
+
+    // Obtém o token Bearer antes do teste
+    await obterToken(entidade.nome);
+    const headers = headerChamada.getHeaders();
+    headers["Authorization"] = `Bearer ${global.Bearer}`;
+
+    // Realiza a chamada GET para a API
+    const response = await supertest(global.baseUrl)
+      .get(rotaUrl)
+      .set(headers);
+      //.query(params);
+
+    const payload = new PayloadChamada("GET", global.baseUrl + rotaUrl, headers, response.body, params);
+
+    if (response.status !== 200) {
+
+      console.log(payload.toString());
+      console.log(response.body);
+      const now = new Date();
+      const pad = (n) => n.toString().padStart(2, "0");
+      const logName = `log_perfilinvestimento_${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}-${now.getMilliseconds()}.txt`;
+      const logPath = path.join(__dirname, "../logsexecucao", logName);
+      fs.writeFileSync(logPath, payload.toString());   
+    }
+   
+    // Asserts para validar o resultado
+    expect(response.status).toBe(200); // Espera status 200
+    expect(response.body.Message).toBe("The request is invalid."); 
+  });
 
 });

@@ -1,0 +1,26 @@
+{
+  "testEnvironment": "node",
+  "testTimeout": 60000,
+  "setupFilesAfterEnv": ["<rootDir>/src/setupBDD.js"],
+  "testMatch": [
+    "**/*.(test|spec).js"
+  ],
+  "collectCoverageFrom": [
+    "src/**/*.js",
+    "!src/**/*.test.js",
+    "!src/setupBDD.js",
+    "!src/exemploGeradorBDD.js"
+  ],
+  "coverageDirectory": "coverage",
+  "coverageReporters": [
+    "text",
+    "lcov",
+    "html"
+  ],
+  "verbose": true,
+  "detectOpenHandles": true,
+  "forceExit": true,
+  "globals": {
+    "AUTO_GENERATE_BDD": true
+  }
+}
