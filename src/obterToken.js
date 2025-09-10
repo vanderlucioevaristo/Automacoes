@@ -7,6 +7,8 @@ const entidades = require("./globals/entidades");
 // Variável global para armazenar o token Bearer
 global.Bearer = "";
 global.baseUrl = "https://homolapi1.sinqiaprevidencia.com.br/api";
+global.apiResponse = {};
+global.virtualResponse = {};
 
 /**
  * Obtém o token de autenticação para a entidade informada
