@@ -13,7 +13,7 @@ class PayloadChamada {
     this.metodo = metodo;
     this.url = url;
     this.headers = headers;
-    this.body = response.body;
+    this.body = response;
     this.params = params;
   }
 
