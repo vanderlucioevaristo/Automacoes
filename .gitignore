@@ -1,1 +1,4 @@
+logsexecucao/
+# Ignorar arquivos de relatório HTML
+*.html
 node_modules
