@@ -11,7 +11,8 @@ class HeaderChamadaPost {
     this.headers = {
       "X-SINQIA-Rota": rota, // Valor da rota
       "X-SINQIA-Client-Key": entidade.clientKey, // Valor do clientKey da entidade
-      Authorization: entidade.basic, // Valor do basic da entidade
+      "Content-Type": "text/plain",
+      //Authorization: entidade.basic, // Valor do basic da entidade
     };
   }
 
