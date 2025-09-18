@@ -374,7 +374,7 @@ describe("SCAF - Previdência - Cadastro - PessoaFisicaAssociada - Suite de Test
     });
 
 	afterEach(() => {
-        EscreveLog.gravarLog(descricaoTeste, response, headers, params, rotaUrl);
+        EscreveLog.gravarLog(descricaoTeste, response, headers, payload, rotaUrl, response.request.method);
         global.apiResponse = null;
         global.virtualResponse = null;
         global.Bearer = "";

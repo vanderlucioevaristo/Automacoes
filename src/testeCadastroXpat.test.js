@@ -67,7 +67,7 @@ describe("SCAF - Previdência - Cadastro - XPAT - Suite de Teste API", () => {
 
 
 	afterEach(() => {
-        EscreveLog.gravarLog(descricaoTeste, response, headers, payload, rotaUrl);
+        EscreveLog.gravarLog(descricaoTeste, response, headers, payload, rotaUrl, response.request.method);
         global.apiResponse = null;
         global.virtualResponse = null;
         global.Bearer = "";
