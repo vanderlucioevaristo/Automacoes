@@ -1,10 +1,10 @@
 class EscreveLog {
-  static gravarLog(descricao, response, headers, params, rotaUrl) {
+  static gravarLog(descricao, response, headers, params, rotaUrl,metodo) {
     const path = require("path");
     const fs = require("fs");
     const PayloadChamada = require("./payloadChamada");
     
-    const payload = new PayloadChamada("GET",global.baseUrl + rotaUrl,headers,response.body,params);
+    const payload = new PayloadChamada(metodo,global.baseUrl + rotaUrl,headers,response.body,params);
     const now = new Date();
     const pad = (n) => n.toString().padStart(2, "0");
     const logName = `${descricao}_${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}-${now.getMilliseconds()}.txt`;
