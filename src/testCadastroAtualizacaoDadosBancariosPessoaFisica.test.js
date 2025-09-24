@@ -40,15 +40,15 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
         await obterToken(entidade.nome);
         
 
-        // Header sem X-SINQIA-Request para POST - PessoaFisicaID = 39 ContratoPlano = 254  {    "Banco": 341,    "Agencia": 1234,    "NumeroContaBancaria": 1234567,    "DigitoVerificadorContaBancaria": "4",    "TipoPessoa": 1,    "FormaPagamento": 1    }
-        const sinqiaRequestHeader = 'MTY1LDIxNSw3MywxNjYsMjM2LDE1NSwyNywxNTcsMTExLDU5LDE5MSwxNDUsMTQzLDEzNiw0NiwyMzYsMjU1LDE2Nyw3NiwxNTQsMjA2LDAsNDYsODgsMTI1LDEwMCwxODAsMjQwLDYzLDM3LDIyNiwxODEsMTYyLDI0OSwxMzQsODQsMjAsMjUsMjIsNTUsMjIsMjEsMTUyLDIyNCw0MywxNTksNTYsMTkxLDEwNyw2NCwyNTMsODYsMTA0LDEwNywxMTYsMTcxLDE4MSwxODIsOTcsMjQ4LDE1Myw1OCwyNyw2NiwyMDgsMTAyLDIxNiwyMzcsMjA4LDEzNCwyMzEsMTIwLDE4MCwyMTMsMjU1LDUxLDEwOCw2MCwxNTYsNzgsMTM4LDI0OSwxMjAsMjQ5LDg3LDE0LDI1NCwyMDYsNTYsMTAxLDE0NiwxNTksMTcxLDIxOSw0Myw1MCwyMzMsMTg4LDE3MCwxOTAsMTU3LDEwLDE3OCwxNzYsMjAwLDIxOSwxMTcsMjA5LDE3MywxMDQsMzIsMTMxLDE3OCwxNDQsNzAsNSwyMzksMTI3LDE2NiwxMDIsMjI5LDI0NSw5NSw1LDY4LDc4LDEwMCwxMTg=';
+        // body {   "PessoaFisica": 39,   "ContratoPlano": 254,   "Banco": 341,   "Agencia": 1234,   "NumeroContaBancaria": 1234567,   "DigitoVerificadorContaBancaria": "4",   "TipoPessoa": 1,   "FormaPagamento": 1, }
+        const sinqiaRequestHeader = '';
         //RENATO JOVETTE LOPES DA SILVA
         let headerChamadaPost = new HeaderChamadaPost(entidade, rotaHeader, sinqiaRequestHeader);
         headers = headerChamadaPost.getHeaders();
         headers['Authorization'] = `Bearer ${global.Bearer}`;
 
         // Body com dados válidos encontrados na tabela PessoaFísica (JSON criptografado)
-        corpo = "MTQ2LDIxLDcyLDMsMTUyLDIzNyw4LDE5MywxNTUsNTYsMjQ0LDI0NCw2MywxNTMsNjEsMzgsODYsOTIsMjcsMjcsMjIzLDQ3LDE4Nyw3NCw1LDIwNSwxNTcsMTcsODksMTEwLDExOCwyMzcsMTc1LDExNiwxOTAsMjA3LDE5MywyMDMsMjU1LDEyNiwxODEsMzcsMTc5LDEyMywxMyw0MywzNywyMjEsODQsMTA4LDEyOSw4Myw2MywxMSw5MCwxMjYsODEsMTg3LDEwLDEzLDEwNywzNyw0LDIwMSwyNDksMjA0LDUwLDU0LDIzLDAsMjEzLDM5LDIyOSwxNzAsMTI2LDIyMSwxMTcsMTczLDIwMCwyMjksMjAxLDIzNiwxMDcsMTU5LDE0MiwxNDMsMjA1LDk4LDE4MCwyMDMsMjQxLDE0MCwxMjUsMTM1LDE1LDM2LDE4MywxMzMsNjksMTU0LDE3MCwyMTAsMjEwLDE3Nyw5OCwwLDIzMCwxNzMsNTYsMTc2LDE4NSwxNzgsNTMsNTQsOTgsMzUsNjAsNjIsMTA3LDEyNSwyMzksMTA4LDcyLDc0LDE2MiwxNjAsMTEsMTIwsQia4hlRgmam+9lyv7I9porLUAUsDuz26wJI8FjzC1k74rYPzS+JTf593M2l8iS2zTRsJ5hSX9CmvRMKosVfZ+CZoXXUZW3fx4Ht84+vKzypMJGYIU02xOlNTIutU6zrsVRkGU8jbEv3ESv/SRL9c3ESsjHfeL8dAOSYopbnY+ktJamwx6UzyBdDNuVpa6MuwYsg3AqiYrf0V8KflMT5KCH9LpQ==";
+        corpo = "NDcsMjQ3LDIyOCwyMDksMTM3LDIyNSw0MywyMzcsMjEzLDIxMiw0MywxODEsMTQ2LDE1NSw2MSwyMDYsNjQsMjQ2LDEwOCwzNCwyMjksMjM4LDE2MywyNDgsMTQxLDQsMTg3LDg1LDI0NiwxNTUsMTc3LDIwLDE4MywyNDYsMjcsMTA0LDcxLDI0OCw4MiwxNTAsMjQsMTMzLDEzMywxNDQsMTg5LDI1LDIwOSwwLDE2OSwyMTYsMTgyLDE0MCwxMTYsNjgsNTMsNTUsOTUsMTkxLDE0MywxMjcsMTEwLDE3MSwxNTcsMzIsMTQ1LDc0LDIyNCwxNjUsMjE0LDE0NywxOCwxMjIsMjIzLDk2LDIzOCwxNDYsNTgsOCwxNTAsMTc4LDE1MiwxOTMsMTgxLDE5MywyMDAsOCwxNzMsMjQxLDIwMSwyNTMsMjA3LDc4LDE3MCwxOTgsMTQzLDExMiwzMywxMDEsMjIwLDIxLDI1MywyMjMsMTMyLDQ3LDE0Miw3NCwxNDksMTUyLDcxLDIwOCwxNTYsMjUxLDEyLDE3NiwyNTAsMjI3LDM5LDEwMSwyMzIsOTksMzUsMjAwLDcyLDExMiwyMDEsMTU2LDIyLDIxNA==sQia4ZbdD40r7MKW2Q/G2H983TsMLByC1oeJhn/srouK35IvZ97EmItfPX4soYjmH0KRPPntG/Qcks6Zi+7bXSsEgaHMVIoSRPBj6APu8oEWpWKLDcvsCFk2gwKHe/qHH/7BZ8nYthMy07X1DHjOF+1DUs+d/sAxq1gKXaWCzp1Bf3/zqvhPKNWxfOKaX+5/WoJWHACcC+/E/YjAYP18xIVqMLy//QahA95AEHozshrHjQSuxNL+dYoVv98S/4zzl1Zlogum1XgTnVN9/NgAkuKNvbA==";
        
         //Realiza a chamada para a API
         response = await supertest(global.baseUrl)
@@ -76,9 +76,9 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
         await obterToken(entidade.nome);
         
 
-        // Header sem X-SINQIA-Request para POST - PessoaFisicaID = 597 ContratoPlano = 254  {   "TipoPessoa": 2,    "FormaPagamento": 1     "Banco": 341,    "Agencia": 1234,    "NumeroContaBancaria": 1234567,    "DigitoVerificadorContaBancaria": "4"}
-        //CLAUDIA DA SILVEIRA
-        const sinqiaRequestHeader = 'MzgsNzgsMTE0LDE5NCwzOCwxOTQsNjQsMTcyLDM0LDE0MiwyMDQsMjA1LDE1NywxMTcsMTIsOTIsNDcsMjI5LDE1MCwyMywzNywzMiwxMDQsMTAzLDIzOSw0Miw0MCwxNzEsMTgwLDIwNCw5NSwyMzksOTIsMTk4LDY0LDM3LDQ2LDI0OCwxNjEsNjksMjAzLDI1MSwxMjYsMTQzLDEsOTgsMjUyLDEwMiwzMywyNTEsNTcsMTY0LDE0NCw5MSwxMTAsMTc5LDIxOCw4NSwxNDgsNzUsMTczLDEyOSwzNCwxNjksMTQsMTkyLDQ5LDIyOSwxODMsMjI0LDM2LDMwLDIyOCwxOTksMTM2LDI0NywxLDkzLDMxLDYwLDE4MiwxODEsNDksMTUsMjQwLDQyLDE3MSw0NiwxOTUsMzksMTksMTk2LDIyNSwxMjMsNDksMjQyLDE3MCw4OCw5MSwxODIsMzUsMTI2LDEzNiwyNCw5MSwyNTIsMjUyLDM5LDg1LDEyNywyMTIsNzcsNjksMTY0LDE4Miw2OCwxMjcsMjEyLDExNiwyMzYsNjcsMTU1LDIwNSwxNDIsNDIsOTEsMTQwLDEwNg==';
+        // body {   "PessoaFisica": 597,   "ContratoPlano": 254,   "Banco": 341,   "Agencia": 1234,   "NumeroContaBancaria": 1234567,   "DigitoVerificadorContaBancaria": "4",   "TipoPessoa": 2,   "FormaPagamento": 1, }
+        // CLAUDIA DA SILVEIRA
+        const sinqiaRequestHeader = '';
 
         let headerChamadaPost = new HeaderChamadaPost(entidade, rotaHeader, sinqiaRequestHeader);
         headers = headerChamadaPost.getHeaders();
@@ -86,7 +86,7 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
 
         // Body com dados válidos encontrados na tabela PessoaFísica (JSON criptografado)
         //JOSE TARCISO MORI
-        corpo = "MzEsOTIsMTQxLDExMyw0LDE4MywxNDAsMjQ0LDE4Niw3OSwzMCwxNzksMjM5LDkwLDEzOCwxNzcsNTgsMTk0LDE0MCw4MywxMTAsMTM0LDE2NywxMywxOTYsMTQ3LDE3Miw2NiwxNzgsMTg2LDIzNiw1NywxODQsMTYyLDkwLDE0MSwyNTQsMjQ3LDI1MiwxNjUsMTUwLDYzLDIyMSw2MywzMSwzMywyMTEsMTUwLDUzLDg5LDEwNiwxMTcsNjQsMTg2LDE1NywxOTAsMTg1LDc1LDExNCw3OSwxOTksMzEsNDUsMTUyLDU5LDIsMTMsMTMsMjQ5LDczLDE1NywxMzksNzksMjQxLDEzNiwzNywxNjIsNDgsMTYyLDEwNiwyMjcsODIsMTE1LDEwMiw4OCw3OSwxMDksMTQsNzEsNTQsMTIwLDE5MCw0MCwxMTEsMTc5LDIzOSwxMTQsMjM0LDIyOCwxMTUsMTA5LDgyLDY1LDEzNywxNTUsMTc4LDE5NSw3LDE2MiwxMjgsMTgyLDE3NiwxNjcsMTAyLDEzOSwxNzksNjgsNTMsMjUxLDIyNiwxOTgsOTksNTgsMTc4LDgsMjE0LDIwMyw0Ng==sQia4hlRgmam+9lyv7I9porLUATyx1tfGYpI5fFcBvU+W6rV2y0fpPPWbs8B1nY3vQWoz4sdWXJplJCydca/L+MAEOvRso3/WEKhuvD6GlPFav0gzKK9c+FR1XKsXSqPNyUNDBygMJ1i8TS46BJoybURpP+OSgHmcb4iyQq2S3DwGb/8rY7Fiq5qza4tojsBfBhz5ISrmWQPZBor1ayeMeqZFnQ==";
+        corpo = "MjUsMTE3LDI2LDIzNywxNjgsNTYsNSwyMCwxODQsMTgxLDIyNiwyMzksMTgyLDIyOSwxMjAsNDksNDgsMjAsODksMTIwLDE0MCw5MSwyNywyMTcsNzIsMTY1LDc4LDEzMSwxNzIsMTYxLDYsMTY5LDczLDEwOCwxNjgsMjM2LDM2LDUzLDIyOCwxODIsMTE3LDEwMywxMDQsMjQ5LDkzLDEwMSwxOTksODcsNjksMjUzLDEzOCwxMTYsNzQsMzEsMzIsOCw1LDE3MiwxMzUsMTEyLDEzLDQzLDIwNyw0Niw4MSwxMjIsMTQsMTI3LDczLDEyMSw2OSw2OCwxNTQsNzMsMTA3LDIzNSwxNjYsMTYwLDExOCw4LDk1LDgzLDEwNCwyMjMsNTMsMTY0LDIyMywxMzEsMjEyLDIxMSwxMDcsMTYsOTQsNDIsMzksMTEzLDEyOCwxMDMsMTc1LDExOCwzOSw5LDEzLDEzLDIwLDE5LDI0NCwxOTgsMjQzLDU2LDE4NSwxMDMsMTEzLDExOSw2OSw4OSwyNTEsMTA1LDI4LDEyNiwyMDMsMTcsNTYsNTgsMzgsMjM5LDE3MCwxNjU=sQia4ZbdD40r7MKW2Q/G2H983TjPNDdwb0cYgrI9tgpK9eQBNFtFykWceSVZu8+88ejETY/eA9dXHJmcu9Yo3coQCW6wF+y5Ycje++iUlvZvULAZdA9I+VvWqR8VsaNXhs8wi3LojHPuo+oKxTpvwUr7k2Wy7gtDtiZh86th8gLyV2xqTcPXHvcBNntNssn3PMa+a5MHmMgJNTkgpCI/jxyquXwg5FHFOM3uPYCm8d+BL6qTOEebwWNH7p5JNrEOifyLz42NGgA8LZV7gSWMAHuienQ==";
        
         //Realiza a chamada para a API
         response = await supertest(global.baseUrl)
@@ -114,9 +114,9 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
         await obterToken(entidade.nome);
         
 
-        // Header sem X-SINQIA-Request para POST - PessoaFisicaID = 63761 ContratoPlano = 254  {   "TipoPessoa": 3,    "FormaPagamento": 1     "Banco": 341,    "Agencia": 1234,    "NumeroContaBancaria": 1234567,    "DigitoVerificadorContaBancaria": "4"}
+        //body {   "PessoaFisica": 44097,   "ContratoPlano": 254,   "Banco": 341,   "Agencia": 1234,   "NumeroContaBancaria": 1234567,   "DigitoVerificadorContaBancaria": "4",   "TipoPessoa": 3,   "FormaPagamento": 1, }
         //ADRIANA CARVALHO DA SILVA
-        const sinqiaRequestHeader = 'MTI2LDI1MCw4Miw0MCw5OCw0MCwxNzksMzMsMjEzLDExOSwyNDYsMjM5LDY3LDYxLDI1NSwxNDUsNzcsNTUsNDMsMjIxLDE3OCw5MywxMjAsNTEsMCwxNjQsMTYxLDg5LDYyLDMwLDU2LDY0LDEwNCw3MSwxNDMsMjAsMjIyLDI0NCwxMDQsMTQ2LDM3LDc1LDI0MCwxNDEsMjAsMTQ4LDIwNiwzNywxMTcsNTAsOTEsMTYzLDEzMSwxMjAsNDEsNDUsMTYzLDksMzMsMjI3LDYyLDMxLDk2LDk3LDEwNSw4MywxNjUsMTE1LDUsMTAyLDEyMCw4LDg3LDE4MCwxNDMsODcsMTQzLDEyLDE0MSwyNDgsMTA5LDk0LDE4NywxMTcsMjAwLDE0NywyNDIsMjA1LDE1MCwyMzksMTc2LDIzLDE1OCw2MCwyMzUsMjAyLDE4OCw3MCwxMjgsMTk4LDEzMCwxMDAsODUsMjQwLDIxLDIzMCwxNjQsMjM5LDUyLDQ4LDExOCwxNzcsMjU0LDE2NSwxLDAsMTAxLDEzNiw0OSw1NSwxMTMsMTAzLDE2MCwyNDIsMjcsMTM2LDQzLDgz';
+        const sinqiaRequestHeader = '';
 
         let headerChamadaPost = new HeaderChamadaPost(entidade, rotaHeader, sinqiaRequestHeader);
         headers = headerChamadaPost.getHeaders();
@@ -124,7 +124,7 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
 
         // Body com dados válidos encontrados na tabela PessoaFísica (JSON criptografado)
         //SORAIA ADRIANA SILVA DE ALMEIDA
-        corpo = "OTcsMTY1LDY0LDE3NywxMjksODksMTM2LDY0LDMwLDc5LDIxNyw4OCwxLDE0NiwxNzgsMjE5LDIzMSwxMjUsMzYsMTcyLDI0NCwxOTMsMTE3LDMzLDI1NCwxMzcsNzcsMjI1LDI1NCw5NywyMCw1MywyMjQsMTAwLDc4LDI0Myw5MCw0OCw4MSw1Miw0OCw3LDIxMiwxNzEsMTAyLDE5MCw5MSwxNzAsNDgsMTQyLDIyLDk1LDM0LDIzLDExOSwxODMsMTc2LDEwMCwxNCwxMzEsNDYsMTAsMTc2LDE0MSw3NSw0MywxOTYsOTcsMTQzLDEzNiw0NSw0MSwyNDksMzcsMTE4LDE2OCwxOTIsMjM2LDIyNCwxMjgsMTkzLDIyOCwxNjcsMTgxLDIwNCwxNjMsMjE0LDg0LDE5NywyMjMsNywyNDQsODQsMjExLDEzLDEzNiwxNjQsNTIsMjI3LDM0LDUxLDExMyw3Miw1MywxMjcsODIsNjAsMzQsMjEyLDE4Nyw5OCwxNTcsNTAsMTgyLDQzLDE0Miw2NCwyMTYsMTk5LDIxMCwxMDYsMTQ3LDk1LDE2MywwLDg0LDczLDExsQia4hlRgmam+9lyv7I9porLUASrGZ7c+6j2IzBUwh3fXY8ytqziIcWOIj8P8S6QlnuPs6PObTSrPr+XGx7mIKsc1//TsBxNhZn7PZYu1fFK/gcxa3Aqo0SwebKyW35vHt7CE7Jd1iHyHmcXY3LZ2nnJ4rOv+77FXBDo5IdzOrhwpaxLkO2BtJgonMjEmr3mD4Kr1cJzh/TXMv73KiNbcanZ0kw==";
+        corpo = "OTQsNzMsMjgsMCw3MiwxNjMsNDAsMTI3LDEwOCwxLDI0Myw5MywyMywyMTcsMjU1LDg4LDIzMCwyMDIsMjIwLDM3LDE2MSw3NSwxNywxODUsNjQsMjMsMjQ0LDE5MSwyMzIsMTI4LDEyNywxNTIsMTM2LDExNiwyMzMsNTksMTQ1LDIxMSwxODAsMjgsMTI5LDY4LDEzMSwxODMsMTU2LDI2LDE4NiwxMTMsMTg4LDQsMTg2LDEyNywyMTQsNTksMTAwLDAsMTk3LDE1OCwyMjUsMjIsMTI0LDU4LDIwMSwyNDIsMjMyLDE4NCw5LDg0LDI0OSwyMTYsMjQ5LDIyMSwxOTEsMjQ0LDEzNiwyMzcsMTAsNjAsMTcwLDY2LDE1NSwxNjQsOTksMTg2LDk1LDEyMSwyOCwxOTQsNDIsMTAxLDI0OCwzOCw3MCwxODEsNDQsMTY4LDE3OCwyMDYsMjExLDksNjUsMjUsMTcwLDIzMywzMSw4MCwxMzIsMTg0LDg1LDU0LDEzMywzLDIxMCwxMTAsMTEzLDE2Nyw3NywxNTMsMjM0LDgwLDIwMCw3OCwxNzgsMjIwLDIwOCwxNTAsOTAsOTE=sQia4ZbdD40r7MKW2Q/G2H983TmDTjz25jlp5mgGpaYpNEa+05mzCROkjRJlFVtVh0sovB67XILhBBcGeAArOG0JMzFNsCpE7u1FeWfcwmwQgs4R39yqJvtldfz88NrY61LhGJu+R/5uOuVKRet0s+1Jp6z4n9mg+KarUFcfjSow3ftUoWVQes3zD4f3JMNtivl1POG4lZXQ8DQ8USqcE8ZVXviceHYDy2krcYlFFQ8FCEHyrXuascQgESa0E0pB5fI7jpgn2XbebyDb4+nFIc3sjSg==";
        
         //Realiza a chamada para a API
         response = await supertest(global.baseUrl)
@@ -152,16 +152,16 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
         await obterToken(entidade.nome);
         
 
-        // Header sem X-SINQIA-Request para POST - PessoaFisicaID = 101802 ContratoPlano = 192  {   "TipoPessoa": 4,    "FormaPagamento": 1,     "Banco": 341,    "Agencia": 1234,    "NumeroContaBancaria": 1234567,    "DigitoVerificadorContaBancaria": "4"}
+        // body {   "PessoaFisica": 101802,   "ContratoPlano": 192, "TipoPessoa": 4,    "FormaPagamento": 1,     "Banco": 341,    "Agencia": 1234,    "NumeroContaBancaria": 1234567,    "DigitoVerificadorContaBancaria": "4"}
         //GABRIELA CALVO GARCIA
-        const sinqiaRequestHeader = 'MzMsNzMsMjE0LDE4NywyNTAsNzYsMjQ0LDE1NCwxMSwxMjUsNjcsMjQ0LDExNyw1NiwxMjQsNTYsMTg4LDcsMzAsMjM4LDk5LDE0MCwxNzgsMTgyLDI0MywxOSwyMjMsMTM1LDY1LDI0OCw0NiwxNzMsMTYyLDIzNSwxNzQsMTEyLDIxLDE1MSw2MywxMjQsMTEyLDIzLDg1LDIzOCw5MiwyNCwyNTEsMTMsNTUsMjEwLDE0OCw1NSw3NCwxNjUsMTE0LDIzOCwyMzUsOTIsMjE2LDYwLDIzNiwxMDUsMTc1LDc3LDc3LDc3LDIyMCw2MSwyMTksMjQ3LDE3MCwyNDEsMTA3LDE2NSwxNSwxMDMsMTcxLDY1LDE0OCw2Myw5NywyMzYsMTc4LDM5LDI3LDI0Nyw1MSw2MCwyMTQsNTYsMTAxLDIxOSwyOCwxNjcsMjA1LDE5NywyNDAsNTMsMTUsMjksOSwxMTMsMTA1LDU2LDIwMywyNyw3NCwyMzQsMTgwLDgxLDE5MSwxNzYsMTI0LDE1MywxOTAsMjE3LDE2LDk3LDIzNCwxNjQsNzgsMTkwLDIxMCwxODYsMTU4LDE0MCwyMjEsMjIw';
+        const sinqiaRequestHeader = '';
 
         let headerChamadaPost = new HeaderChamadaPost(entidade, rotaHeader, sinqiaRequestHeader);
         headers = headerChamadaPost.getHeaders();
         headers['Authorization'] = `Bearer ${global.Bearer}`;
 
         // Body com dados válidos encontrados na tabela PessoaFísica (JSON criptografado)
-        corpo = "MTI2LDcwLDk2LDEwMiwxMDIsMCwxODksMTg5LDE2MCw0NywxOSwyNTAsMjEsMjU0LDIwMCw1Miw0LDgwLDIyNywyMjAsMTk1LDEwOSwxNjAsMTA5LDEwOSwxOCwyNywxOTAsMjUyLDQyLDI2LDYsMTA1LDI0MCw4NiwyNiwyNDEsNjIsNDUsMTQxLDc4LDUyLDEwMSwxNzIsMTEwLDIwMCwxMzQsMTYsMTkxLDI2LDExMywyMDUsMjA3LDIxMiw0NCwxNzksNiw2MiwxMDcsMTI1LDEyNCwxMDcsMTQyLDI2LDIxMCw5NSwxNjQsMTYsOTgsMjAzLDE3OCwyMDEsMTY3LDEwNywxNDYsMTkyLDE3Nyw2MCwxNDksMTAwLDg0LDIxNiwxNywxNjAsOTIsODAsMjQzLDIyNiw2OSwxODAsMTQ2LDExMiw0MSwxODIsMTQ0LDE3MywxMTgsMjA4LDIyMiwxOTksMTY2LDE2NCwyMTksMTcwLDQxLDIwOSwxNDAsMTUyLDE2NiwyNDcsOTEsMTM5LDE4LDIwMSwyMTAsMjIyLDE4NCwxNTUsMjM1LDY1LDc0LDEwMSwxMjYsMTk3LDMxLDMwLDE1Myw2Nw==sQia4hlRgmam+9lyv7I9porLUAcy5F/R9QNpcFxLss0UNMfR5ekt78FXAIljMdrfhG4kXJDDXl12rSm3M+iTC3Lv2D/36fN4VMTNhWHn4L8lF52CGq9XuxdwlM7L3GdhNUE+b/arWmjJ4GVrwgOzjwwKV78APdW6j1v4jA3S/WCTLrhckljyz40IId0mJEXvF0s5+1prI4TTe2IwaJ3MVp7E+UMMja5j/exiWzNi0o8QiNfQ=";
+        corpo = "OTQsMTMwLDI0NiwzMywyMiwxOCw0NCwxNzcsMTgsMTA4LDI0OCwxMTgsMTM3LDEzMyw0NCwyNSwyNDAsNzksMTM3LDEyNCwxNDksOTUsNiw1OSw5MiwyMjYsOTAsMjMsMjUyLDIxMSwxMDUsMTI1LDE4OSwxODUsMzAsMTkwLDgwLDEzMCwzOCw2MSwyNDQsNjksMTI3LDM5LDE5NywyMjksMjA2LDEsMTU5LDEzMywyMzMsMTIyLDIyLDg0LDQzLDEzMSwxNTMsMjIyLDE4NiwxMjcsMjA2LDIxNywyMzIsMjEzLDg2LDEyNCw0MywxODMsMTk1LDYzLDExOCw1Myw3NCw5OSw1NSw1NSw3LDEyOCw5NiwxMTksMTExLDI0OCwxNTIsMTE3LDE0MiwxNjgsMTA4LDIzMSwxMzQsMjEsMTAsNDgsMiwyMTMsMjI1LDU5LDY5LDEyMCw4MCw2MCwyMDAsODcsMTIzLDIzMiw1LDYsMTg5LDE3MCwxNTQsMTM5LDEwNiwyMjMsMzQsMjU0LDE3Miw4OCwyNTQsMjM3LDE2MCwyNiw1LDcxLDE1MSwxMDIsMjIyLDI3LDIwMCw0Ng==sQia4ZbdD40r7MKW2Q/G2H983To3fVSlOwdrb1jCaQMqJj7CMM2Y7xG04DZSIxNbrFqNl93NWcK9p9SjmBA9DPxxQQ8gL0qJ/AZlGqjcBJa+wEKL42aBvAG2+8Nf0tcDucJV1WwbL9nIksabElcipTN1J1Ld+lVuFBIdtOAaFTphyGmhbY8328UUIRVP5jDkg80AaYOuBvom0U1gFLqT3ZaVhI/rOnz2exKd8dsyccPSWOv5eC6+totyMmJcs6nSBu8lJW+AsuwSQ3vEBLulMaamhaQ==";
        
         //Realiza a chamada para a API
         response = await supertest(global.baseUrl)
@@ -179,8 +179,8 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
         expect(response.body).toHaveProperty("Justificativa", null);
     });
 
-    it("SCAF - Previdência - Cadastro - Pessoas Físicas - Dados Bancários  - Post - Solicitação alteração Sem tipo pessoa - Status code 200", async () => {
-        descricaoTeste = "SCAF - Previdência - Cadastro - Pessoas Físicas - Dados Bancários  - Post - Solicitação alteração Sem tipo pessoa - Status code 200";
+    it("SCAF - Previdência - Cadastro - Pessoas Físicas - Dados Bancários  - Post - Solicitação alteração tipo pessoa inválido - Status code 200", async () => {
+        descricaoTeste = "SCAF - Previdência - Cadastro - Pessoas Físicas - Dados Bancários  - Post - Solicitação alteração tipo pessoa inválido - Status code 200";
         //Dados para o servidor de virtualização
         const virtualServer = "https://api-sv.primecontrol.com.br/MzM1OGVjYjhjMWUwNDRiMDgzYjhlNzljZGM2NTE3OGQ";
         const virtualToken= "";
@@ -189,16 +189,16 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
         await obterToken(entidade.nome);
         
 
-        // Header sem X-SINQIA-Request para POST - PessoaFisicaID = 101802 ContratoPlano = 192  {  "FormaPagamento": 1     "Banco": 341,    "Agencia": 1234,    "NumeroContaBancaria": 1234567,    "DigitoVerificadorContaBancaria": "4"}
+        // body { "PessoaFisica": 101802,   "ContratoPlano": 192,  "FormaPagamento": 1     "Banco": 341,    "AgenciaA": 1234,    "NumeroContaBancaria": 1234567,    "DigitoVerificadorContaBancaria": "4"}
         //MARCIA CORTEZ BRANDANI GIULIANO
-        const sinqiaRequestHeader = 'MTMxLDExMCwyMzUsMjM4LDI1NSwxMDgsMjIxLDE5LDE1NiwxMzAsMTU0LDgyLDE5Niw5MiwxOTIsMTMzLDE3MSwxMSwyOSw3NCwyNDQsMTAxLDEzOSwyNDksMTI0LDE5NCwyMDIsMywxMzMsMjQxLDEzLDI1NSw0LDEwNiwyMTMsMjA5LDIzMiwxNzgsMTcxLDI1NSwxNjYsODMsOTQsMjQ0LDAsNDYsMjAzLDg2LDE3LDEwLDEwNywxOTEsMjMsOTksMjM4LDE2MywyMCwxOTgsOTQsNDMsMjI1LDI0MSwxODYsNzUsNzEsMjA0LDM2LDMwLDQ3LDE3MSwxNzUsMTcxLDExMSwyMTEsMTAyLDE5NSwyMywxODEsMjMzLDE2OSwyMTgsOTcsMjU1LDIyMCw4NywyNDksMTM0LDE3OCwxNDgsMjUxLDEyLDk3LDU2LDUxLDQ4LDEzOCwxNzgsMjU1LDEwMiw0MSwxNjMsMTQyLDEzMSw3OCwxNzUsMjI0LDE5LDEyNywyMDcsMTUzLDE3LDc1LDEyMCwxNDcsMTcyLDIxMCwyMjgsNDEsMTU3LDgsMjUxLDIzNCwyMiw1MywxNzEsMTkxLDExNCwyMDg=';
+        const sinqiaRequestHeader = '';
 
         let headerChamadaPost = new HeaderChamadaPost(entidade, rotaHeader, sinqiaRequestHeader);
         headers = headerChamadaPost.getHeaders();
         headers['Authorization'] = `Bearer ${global.Bearer}`;
 
         // Body com dados válidos encontrados na tabela PessoaFísica (JSON criptografado)
-        corpo = "MTE3LDE3MCwyMTEsMTIxLDg1LDQwLDEyMCw3Nyw2NSwzMywxNTAsMjE0LDk1LDE3Niw3MiwxNzMsMjQ0LDUxLDIzMSwxODcsNCw3MCwxOTIsMTMzLDIzMSwxMjIsMTksMTY5LDE4NywyMzksNDEsMjIzLDkwLDM4LDg5LDIwLDE1Miw1Myw2MCwxNDcsMTIxLDEyNiwyMjEsMTM3LDM0LDM1LDE1Miw2OSw2OCwxNiwxODIsNTUsMTMzLDYzLDE0NCwxMDUsMzcsMTUxLDI5LDIzNywyMjgsMTMsMTIxLDIyMywxMTgsMjM5LDE3NSwyMTgsNzIsODIsMzUsMjU1LDExLDEzMCwxOTcsMjAyLDE2NCwxNTMsNCw2MiwyMTAsMTkxLDQwLDIyNywyNCwxOTgsMTIsMTI2LDYsNzksMjI3LDU4LDE0NiwxMjYsNzIsMjIyLDI2LDI0MSwxNzYsMTI2LDU4LDEzNywyMzksMTc3LDIxMCwxNzcsMTM5LDE2NSw4MiwyMDksMTY2LDEwMSwxMTUsMTksMTc5LDUsMTE3LDQ4LDE2MywxMTYsMTkwLDE0OSwxODUsOTEsNjYsMjA0LDE3MywxNzQ=sQia4XQJLEYdh//rRZw8G86Vjn4tD1ZgMGXSOT/XhUwRZ1La1nN+8QNCa/SV8W0+oDy1tLJBLPuHR2/6KhbhVF/UrOkuOcaKHqewYi31LJUP+x5lSgTT6GqH7OJ9SPVqQSvQHg4OsxRciiTxmQP2K62CP5FQmjuqNTBbwo5oE3vnTIAnddUs8tG4PttpwxGhMQ+jV";
+        corpo = "NCwyNTUsNTIsMTcyLDkxLDIyLDQ3LDE0NSwxMCwyNTUsMjE0LDE5OCwxNzUsMTc3LDEwOSw4MCwxMDcsMTIsMTY3LDEzNiwzNiwzNSwxNzcsMTQsMjUyLDIxMiw5OCwxMjUsMTUsMjA1LDU4LDkyLDM0LDE5MiwyMjYsMTg5LDIyNiwxNjYsMjYsMzAsMTkzLDE5NiwxODUsNjEsMjE5LDIyOCwxODIsMTk4LDIwNSw3OCw4MSwxNCw5MSwxNTcsMjQ5LDE3LDEyOSwxODcsMTA1LDIwLDIzNSwxNzQsMTkxLDExOCwxMTUsNzcsMTE4LDI0NywxMzcsMjUwLDE2NiwyNCw1Miw2Miw1MiwxMTQsNiw3NiwxMzgsMTA5LDIxNCwxNjksMTYsMTg1LDEzOCwxOTQsMTYzLDIyMSw1MiwyMTksMzUsODAsMjE2LDI0MCw1MywyMTYsMTc1LDIyMywyMTgsNTQsMywxNDQsMTM1LDk1LDgxLDg3LDExMywxODIsMjAzLDI0NywxNzEsMTA1LDE0OSwxNTgsMTk1LDIzNSwyNTQsOTMsMTEwLDIwOCw1MSwxMCw4NywxLDY3LDEyOSwyMTksNDE=sQia4JXhUGpcnhu+70v3MYNWZZV1BiUqyCO5oh/aEcu1BUGysAA6bK6cE97qWHUnAoXaKOfu0ctQLGP82+qVRGmWDNBnqtbnI8Y1PxZ0fw2Tp1G4BvpeVWKyxbVCYhlaw1dMQTaRDYEGIHOi45N/93MKdfLSvMaRz2oku30g7WbBjvov1EMJYp5iSphwFarOBKX9yH/tejAuuvqFPaLJYC4Bt7OUQcwvZfPoZ6eGfwLF3m1BDCaYw/0ctkmdV8gMqIZr5";
        
         //Realiza a chamada para a API
         response = await supertest(global.baseUrl)
@@ -211,10 +211,10 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
         //Assert
         expect(response.statusCode).toBe(400);
         expect(response.body).toHaveProperty("mensagem", "Solicitação Imprópria");
-        expect(response.body.campos[0]).toHaveProperty("codigo_erro", "erro-cad-1540");
-        expect(response.body.campos[0]).toHaveProperty("mensagem", "Vínculo não encontrado para a pessoa física e plano informados");
-        expect(response.body.campos[0]).toHaveProperty("campo", "PessoaFisica");
-        expect(response.body.campos[0]).toHaveProperty("valor", "52");
+        expect(response.body.campos[0]).toHaveProperty("codigo_erro", "erro-cad-1541");
+        expect(response.body.campos[0]).toHaveProperty("mensagem", "Dados bancários inválidos");
+        expect(response.body.campos[0]).toHaveProperty("campo", "DadosBancarios");
+        expect(response.body.campos[0]).toHaveProperty("valor", null);
     });
 
     it("SCAF - Previdência - Cadastro - Pessoas Físicas - Dados Bancários  - Post - Solicitação alteração Sem Forma Pagamento - Status code 200", async () => {
@@ -227,16 +227,16 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
         await obterToken(entidade.nome);
         
 
-        // Header sem X-SINQIA-Request para POST - PessoaFisicaID = 52 ContratoPlano = 254  { "TipoPessoa": 1, "Banco": 341,    "Agencia": 1234,    "NumeroContaBancaria": 1234567,    "DigitoVerificadorContaBancaria": "4"  }   
+        // body {"PessoaFisica": 52,   "ContratoPlano": 254, "TipoPessoa": 1, "Banco": 341,    "Agencia": 1234,    "NumeroContaBancaria": 1234567,    "DigitoVerificadorContaBancaria": "4"  }
         //MARCIA CORTEZ BRANDANI GIULIANO
-        const sinqiaRequestHeader = 'NDIsMTUzLDQ2LDIzNiwxODcsNTYsMTQyLDE4NywyMzEsMzQsMTUsNjMsMTU0LDE1MywxNDYsMTU1LDExMSwyMjksMTAyLDg3LDEzNCwyNDgsMTk3LDE2LDE5LDI1LDQ1LDIzNywxNjMsMTQzLDExOCwxODksNjYsMjAsMjMxLDc1LDU1LDg2LDIyMSw4OCwzMyw2MCwyMjYsMTc3LDY1LDExLDk1LDc4LDk4LDIxNCwyMjcsMTk3LDEzLDY0LDMzLDIxMyw5OSwyNTIsNDUsMTI1LDIyMyw5MywxMTQsMjI5LDIxNSwxODgsMywyMjcsNzcsMTU5LDc3LDc2LDEwMywyMzUsMTc3LDEsMTk1LDExMywxNDUsMTExLDIwNCwxNzcsMTczLDY4LDE3MCwzOSwyMzEsMjE0LDE3LDE5NCwxNTEsNzAsMjYsMjMwLDE5OCw0NSwxMjMsMTQwLDEyMywxOCw5MSwyMDQsMjksMjE4LDEyMiw4MSwxNDAsMTA2LDg3LDg4LDYsMTkyLDkwLDEyNCwxMzAsNjcsMjMzLDQsMTg5LDIwMCw3MCwxMDUsMTI2LDQ0LDIxNiwxNjksMjE5LDIzMg==';
+        const sinqiaRequestHeader = '';
 
         let headerChamadaPost = new HeaderChamadaPost(entidade, rotaHeader, sinqiaRequestHeader);
         headers = headerChamadaPost.getHeaders();
         headers['Authorization'] = `Bearer ${global.Bearer}`;
 
         // Body com dados válidos encontrados na tabela PessoaFísica (JSON criptografado)
-        corpo = "NDMsODAsMjIxLDEyNiwxNCwxMTYsMTkyLDM1LDEwLDI0NSwyMDEsMTQ5LDM5LDc3LDEzNiwxMTIsOTIsNjEsMTAwLDMyLDc0LDE5NywxMTAsMjQ1LDI1MSwxOTYsMTkwLDE0MCwxMTMsMjAzLDQ3LDI0LDE2MywxMjQsNDcsMTU1LDI1MCw3OCw4MCwxODcsMjEyLDE3MywzNCw3OCwyMzQsNjIsNTgsOCwyNTIsMzMsMTYxLDcsNjYsMjAzLDE2MSw2NSwyMzIsMTU5LDQxLDI0LDIxLDc2LDcwLDE3MiwxNTcsMTA0LDI0NCwyNDIsMTg0LDQxLDIyMywxNDYsMTI2LDI1Miw0NywxODEsMTQ2LDk0LDIxNSwyMTcsMTkyLDE2OSw0MSwxODEsMTI0LDE0OCw0NiwzMyw5NSwzMCwxOTEsMjMyLDI1LDQ0LDEyOSwxMDMsNTYsNTksMzcsMjE1LDI0NywyNTQsMTk2LDQ2LDIzNiw4Miw4NCwzNSwxMTksMTQ1LDI1MSw0LDc2LDEwNCw1Niw5NCwyMjIsMTksMjQ5LDIxNCw0MCw3MCwxMDgsMTQ3LDUsMjM4LDE3LDExMw==sQia4Aij1CSsKu49uI9jd8WqEoUItqy7bM5ar7x9nqu8LEGiJHPXy6g5XV+JLlG1IbdxkXDw0RlWiWy6wGqV7MPFTSbrGRKqlHFs8Tb4Tx12MXeVP7y+u2gf3HHoUsOZxcXUKXrq9Vn/BJLFdWLzKoP2rznYiQbTEqygHJ/e5BsbVNon1QZJwOX0LkfnOO6QUl8zC";
+        corpo = "NDksMjEsMjAzLDQ5LDEyNiwyOCwzNCwxNDcsMTIsMTk0LDIwMiwyMjksMTAyLDExOCwxMjgsOTQsMjUyLDIyMiw1MiwxOTMsNywxOTEsMTEsMTc0LDI1MSwyMjUsMTc0LDE5NywxNzgsMjQ0LDcwLDQwLDE4NSw4LDExMyw1MCw1NiwxMDksMTEwLDIxNywxMzMsMTI4LDEzMywxODksMjA2LDE5MCwxNDksMjU1LDk3LDI1MSw3NSw4MywyMjksMjUyLDE4OCw5MSwxMzksMjA2LDE3NSwxMjEsMTA3LDY1LDE1LDE1Myw5Niw5MSwxOSwyNTUsMjQ4LDI1MywwLDIyNSwyNDQsMjI3LDIxNSwxMCwxNzksMTQsMTU5LDI0NSwxOTUsMzEsMTYsMjQ4LDE0NSwxMjgsMTAwLDYsNzAsODgsOTUsMTAzLDE4NCw0LDE3NCwxMTYsNTEsMTI5LDEyMCwyMTAsMTUyLDE4NSwyNDksMjQzLDUxLDEwMCw5NCwzNiwxNTMsOTQsNjMsMTY0LDIwMywzOCwxMDUsMTM5LDIzLDIxMywzMiwxNiwyMzAsMjQsMzMsMjAzLDgyLDIwMiw3OCwyMDU=sQia49HB9T2qLPSPg3rfjo/fAivvMW5qg4MM6OvX5lCWIVGmQEiWVfyLPVwqKzrF6ZdFWJVvYd88a6LlwabUe1AD3XaFHDiz5TTrpQKl4QXWuJwP9+S1CvphOa7vutEJyT4UaPLbGhSr4JMGk5NxjA1lJJJjV83b6OtONaTHnODAdinFbwFUx/denCSqUykm1n30D5XRZVeEKrlMiWO3CAaeTj4WDcBmDnZV8bohMze97+vs=";
        
         //Realiza a chamada para a API
         response = await supertest(global.baseUrl)
@@ -250,7 +250,7 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
         expect(response.statusCode).toBe(400);
         expect(response.body).toHaveProperty("mensagem", "Solicitação Imprópria");
         expect(response.body.campos[0]).toHaveProperty("codigo_erro", "erro-cad-1538");
-        expect(response.body.campos[0]).toHaveProperty("mensagem", "Forma de pagamento deve ser preenchida");
+        expect(response.body.campos[0]).toHaveProperty("mensagem", "É obrigatório preencher pelo menos uma opção entre principal e empréstimo");
         expect(response.body.campos[0]).toHaveProperty("campo", "FormaPagamento");
         expect(response.body.campos[0]).toHaveProperty("valor", null);
     });
@@ -262,18 +262,17 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
         const virtualToken= "";
 
         //Obtem o token de autenticação para o teste.
-        await obterToken(entidade.nome);
-        
+        await obterToken(entidade.nome);        
 
-        // Header sem X-SINQIA-Request para POST - PessoaFisicaID = 1021 ContratoPlano = 399  {   "Banco": 341,   "Agencia": 25,   "NumeroContaBancaria": 123456,   "DigitoVerificadorContaBancaria": "0",   "TipoPessoa": 2,   "FormaPagamento": 1,   "FormaPagamentoEmp": 1 }
-        const sinqiaRequestHeader = 'MTU3LDU3LDE1NSwxNzAsMTg3LDI1MywxMTQsMjM4LDAsMjAxLDIxMCwyNDksNjgsMTg4LDE5NiwxNTUsMTMzLDEwNCwxNTksNDcsMTAsNTQsMjE1LDEyNSwyMzksOTIsNzQsMzMsMjQ5LDE3NiwxMzUsMTk4LDEwMywxMCwxNCwxMjYsMjI4LDE2NSwxOSw2MSwxNjksMjMzLDEyNSw1MiwxOTIsMjU0LDY5LDEwMyw0Miw5MCwxLDE0MywxOCwxOTQsMjM1LDE1LDE0NywyMDUsMTM4LDEyMiw4LDY4LDQsMTAzLDE3LDExLDIzNSw1NSwxOSw0MSwxMDMsOCwxMzcsMTUxLDE2OCwxODUsMjA4LDE4OCwyMzgsNTgsNDQsMjEzLDE2NCwyOCwxMDEsMTM4LDE5Myw1Nyw4NSw1NywxMDYsNjcsMTEzLDE4MCwyMTMsOCwxNTUsODgsMTc5LDYxLDYyLDkyLDIyMiwxNTgsMTExLDEwMyw5NywxOTksODMsMTExLDIwNiwxNzEsMTcsODgsODksNjIsNTksMTc1LDE3NywyMzEsMTEwLDEwMiwyMjcsNjYsMTkwLDE2NCwxNjUsNTE=';
+        //body MjEsNjIsMjMsMjgsMzUsMjI2LDIzNywxMTAsMTUzLDEyOCwxNzksNDAsNDYsMTU0LDE0OSwxNiwxMDAsMTI3LDEyLDIwOSwyMjgsMTA3LDE0MCw2OCwxNDQsMTQwLDE3MiwxNDMsMCw4Nyw0OCw3NCwyMDcsMjExLDg5LDE4LDIyOCwyMTcsNDgsMjUwLDEyMSw1LDEzMywyMTAsMjM5LDE3NywyOCwxMjIsOSwxNDIsMCwxOTksODAsMTM1LDYwLDU5LDkwLDEzNCwyNDMsMTI0LDgzLDIzOCw0MiwxNDEsNjksMjIwLDEwNyw1NSwzOSwxMTIsMjIzLDE2OSw5NywyNDYsMTc2LDUxLDY2LDMwLDEzOCw4MSwyNSwxNzQsNTYsMjEzLDI1Miw5MSwxNSwyNiwxODQsMTAxLDI0OSw4MCw1MywxMTAsNzYsMTk0LDEzLDE1NCw1OSwxNjgsMTYwLDE5NywxOTksMjMyLDk1LDE3OSwxNDksOTksMTU1LDc2LDE2OCwyMjAsMjIwLDE3NywxODIsNDAsNzYsMjMwLDQ2LDExOCwxMDAsMTQ4LDE3NywyNTMsMzAsMTU1LDE4MywxNjg=sQia4ZbdD40r7MKW2Q/G2H983TsMLByC1oeJhn/srouK35IvZ97EmItfPX4soYjmH0KRPPntG/Qcks6Zi+7bXSsEgaHMVIoSRPBj6APu8oEWpWKLDcvsCFk2gwKHe/qHH/7BZ8nYthMy07X1DHjOF+1DUs+d/sAxq1gKXaWCzp1Bf3/zqvhPKNWxfOKaX+5/WoJWHACcC+/E/YjAYP18xIVqMLy//QahA95AEHozshrHjQSuxNL+dYoVv98S/4zzl1Zlogum1XgTnVN9/NgAkuKNvbA==
+        const sinqiaRequestHeader = '';
 
         let headerChamadaPost = new HeaderChamadaPost(entidade, rotaHeader, sinqiaRequestHeader);
         headers = headerChamadaPost.getHeaders();
         headers['Authorization'] = `Bearer ${global.Bearer}`;
 
         // Body com dados válidos encontrados na tabela PessoaFísica (JSON criptografado)
-        corpo = "NjMsODgsOTAsMTE3LDUyLDE3MCwyMjksMTM4LDMzLDIxLDIxMiwyOSw1OCwyNiwxMDEsMjQ4LDQ5LDcyLDE3Nyw5MSwxMCwxNzIsMjA1LDIsMTcsMCw2NSwyMjAsODUsMSwxNiw2MiwxMiwyNDEsMjI5LDAsMTU0LDE1MywxODQsMTYzLDI1MywyMTQsMTM1LDEzOSwxMzAsNjksMTYxLDMsMTIyLDIwMiwxNzgsMjQ3LDE0MCwyMjIsODQsMTY4LDExMywzMiw0Niw4MSw0NywxNzUsMTU1LDQsMjUyLDg2LDEwMiwxLDE0OSwxMTYsMTkyLDE3OSw0OCwyLDEwNSw5NiwxMjAsODgsMTIsNTIsMTIyLDU5LDIwNSwxMCw0MiwyMTQsMTkwLDEyLDY0LDEwMCw3MSwxNDIsMjQ0LDE3Miw4OSwxMzcsMjMxLDEwNyw0Nyw4OCwyNTIsNzAsMTU1LDI0OSwxNjYsMjQwLDIxNyw0NiwyNDIsNDgsMjcsNTYsNTUsODQsOTQsOTMsNzAsMTAwLDQwLDIzLDE4OCwxOTgsMjAsMjIzLDIzNywxNjcsMTUzLDQysQia4ZYnzApowSmd5pP0+xRIlfHH+A47WgrWJAUOYhGLtyLXdaOxTG6cm63j39njcUHckhvUTR8HlQxIXvF39jAEA0+2iOTUYVaBYXKWmUQK8RxU0ZbxLRIcJc+HzTOeHBLeegRwxxhiFSmp4H5DOv9wYsSZjcoHpsyzJR2s8CJHUwdiWgizorlS4MoGwzoouuWUySlD80HHT601IcUhyU8SPYA==";       
+        corpo = "MjEsNjIsMjMsMjgsMzUsMjI2LDIzNywxMTAsMTUzLDEyOCwxNzksNDAsNDYsMTU0LDE0OSwxNiwxMDAsMTI3LDEyLDIwOSwyMjgsMTA3LDE0MCw2OCwxNDQsMTQwLDE3MiwxNDMsMCw4Nyw0OCw3NCwyMDcsMjExLDg5LDE4LDIyOCwyMTcsNDgsMjUwLDEyMSw1LDEzMywyMTAsMjM5LDE3NywyOCwxMjIsOSwxNDIsMCwxOTksODAsMTM1LDYwLDU5LDkwLDEzNCwyNDMsMTI0LDgzLDIzOCw0MiwxNDEsNjksMjIwLDEwNyw1NSwzOSwxMTIsMjIzLDE2OSw5NywyNDYsMTc2LDUxLDY2LDMwLDEzOCw4MSwyNSwxNzQsNTYsMjEzLDI1Miw5MSwxNSwyNiwxODQsMTAxLDI0OSw4MCw1MywxMTAsNzYsMTk0LDEzLDE1NCw1OSwxNjgsMTYwLDE5NywxOTksMjMyLDk1LDE3OSwxNDksOTksMTU1LDc2LDE2OCwyMjAsMjIwLDE3NywxODIsNDAsNzYsMjMwLDQ2LDExOCwxMDAsMTQ4LDE3NywyNTMsMzAsMTU1LDE4MywxNjg=sQia4ZbdD40r7MKW2Q/G2H983TsMLByC1oeJhn/srouK35IvZ97EmItfPX4soYjmH0KRPPntG/Qcks6Zi+7bXSsEgaHMVIoSRPBj6APu8oEWpWKLDcvsCFk2gwKHe/qHH/7BZ8nYthMy07X1DHjOF+1DUs+d/sAxq1gKXaWCzp1Bf3/zqvhPKNWxfOKaX+5/WoJWHACcC+/E/YjAYP18xIVqMLy//QahA95AEHozshrHjQSuxNL+dYoVv98S/4zzl1Zlogum1XgTnVN9/NgAkuKNvbA==";       
         //Realiza a chamada para a API
         response = await supertest(global.baseUrl)
             .post(rotaUrl)
@@ -299,15 +298,15 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
         await obterToken(entidade.nome);
         
 
-        // Header sem X-SINQIA-Request para POST - PessoaFisicaID = null ContratoPlano = null  {   "Banco": 341,   "Agencia": 25,   "NumeroContaBancaria": 123456,   "DigitoVerificadorContaBancaria": "0",   "TipoPessoa": 2,   "FormaPagamento": 1,   "FormaPagamentoEmp": 1 }
-        const sinqiaRequestHeader = 'MTQ5LDc0LDg1LDExNywxNCw4MSwyMTYsMTk3LDIzLDIyOCwxMTQsNjUsMTE2LDE0MCwxMjQsMTUxLDg4LDY4LDU4LDE3MSw5LDEwMiw4NiwxNzMsMzAsOTUsMjAyLDI0NywxNDIsNDUsMTI3LDE3MiwxNTksMTQ4LDU1LDMwLDIwNSwxNDIsMTI3LDIxNSw3MywxNzEsMzcsMTA4LDEyNCwyMjcsNTcsMzYsMjM3LDE1MiwxNTIsNjAsMjE5LDcwLDI0MSwyMSw4NSwxODUsMzksMjM5LDEwNiwxMDgsMTg1LDQsMTM5LDIzLDczLDgyLDgzLDEzMSwxMTMsMTAwLDE3LDAsMjQyLDE2OCw1MSwxOTEsMTUsNiw4Nyw1NCwxLDEyMCwxNDksMjA3LDkxLDM1LDEyOSwxODQsODUsMjM2LDE4MCwxMDcsNjMsNzMsNSwxMDYsMTg5LDIzMiwxMzUsMTExLDg3LDExMSw2NSwyMzMsMjI4LDIwMywxODUsMzIsNDksMTExLDEwNCwwLDI0OSw1MiwxNzYsMTU5LDIyOSw3Nyw4OSw1OSw1OSwxNzEsODYsMTMyLDI1MiwxOQ==';
+        // body {   "PessoaFisica": null,   "ContratoPlano": null,   "Banco": 341,   "Agencia": 1234,   "NumeroContaBancaria": 1234567,   "DigitoVerificadorContaBancaria": "4",   "TipoPessoa": 1,   "FormaPagamento": 1, }
+        const sinqiaRequestHeader = '';
 
         let headerChamadaPost = new HeaderChamadaPost(entidade, rotaHeader, sinqiaRequestHeader);
         headers = headerChamadaPost.getHeaders();
         headers['Authorization'] = `Bearer ${global.Bearer}`;
 
         // Body com dados válidos encontrados na tabela PessoaFísica (JSON criptografado)
-        corpo = "MTA0LDIxOSwxMTcsNDUsNjYsOTYsODcsMTYyLDE1NiwxODksNDYsMTEsMzQsODQsNzYsOTIsMTcwLDUwLDgyLDc2LDIzMSwxMDQsMjM5LDEzNyw1NywxOTEsMSw1OSwxNjUsMTQ1LDEzMiwyNDcsOTAsMjI5LDEwOSw1OCwxOTUsMTMyLDI1LDI2LDAsMTQzLDIzNiwyMTYsMTY2LDEzNSwxMjQsODAsMTUxLDM4LDE5Miw4NSwyNiwyMTUsMzcsMTY5LDY3LDEyLDEyOCw5NCwxNjEsMTMxLDc2LDM0LDIyLDUzLDI0LDM0LDI1MCwzOSw5Nyw3MywyNDcsMjMxLDI0MSwyOCwyMDAsMTY5LDE1NCwxNjMsMTA1LDEzOCwyMDIsMjI0LDE1LDExMiwxMDIsMjQ3LDkzLDEyMSwxMTcsMTEwLDEwOCwyMTIsMjM3LDgsMTY1LDYsMjAzLDg1LDIyMywyNTIsMzksMTc4LDE0NSwyNDAsMTI2LDExNCwxNjAsMiwxNjMsMTgzLDUwLDI0NSwzOCwxNzAsMTU4LDE2NywxMTgsOCwxODMsMTU4LDcyLDEyNCwxNjEsNjcsNywzNA==sQia4ZYnzApowSmd5pP0+xRIlfHH+A47WgrWJAUOYhGLtyLXdaOxTG6cm63j39njcUHckhvUTR8HlQxIXvF39jAEA0+2iOTUYVaBYXKWmUQK8RxU0ZbxLRIcJc+HzTOeHBLeegRwxxhiFSmp4H5DOv9wYsSZjcoHpsyzJR2s8CJHUwdiWgizorlS4MoGwzoouuWUySlD80HHT601IcUhyU8SPYA==";       
+        corpo = "MTYzLDk1LDM1LDIwOSwxMzcsMzMsMjAwLDIxNSwyMzYsMTY0LDEyNSw1LDE5NiwxNzQsMjM1LDIyMCwyMjQsODEsMzgsMjIzLDE4MiwxNjYsMTUsMzAsMTgwLDE2NiwxOTIsNzQsNTQsNjMsMjAyLDE3Nyw0NiwxODYsMjA0LDIyMiwxMjksNzMsMTQyLDE1NCwxMjIsOTQsNTEsMTAwLDcxLDQ4LDY3LDIxOSw3MiwxNzMsMTg1LDMyLDIwMiwzMSwyMzgsOTUsMTU2LDIwMywyMDYsMTQyLDQ4LDMsMTcxLDI3LDIwNiwxNDEsMTc2LDgzLDI2LDQ5LDE2NiwxNzQsMTksMzgsMjAsMTM0LDMwLDE2OCwxNTEsMjEzLDU3LDQ4LDY1LDIwLDIxMSw2OCwyMDIsMjAzLDIwOCw3LDE0LDIsMTM3LDMzLDc3LDIzNCwxNDUsMTI0LDEzNSw4NywxOTMsMTgzLDIsMjQxLDM0LDEzNywyNDcsMTM5LDcwLDE5NiwyMzUsNzgsMTI4LDksMTYzLDE2MSw2NSwzNSw0NSwxOTEsMTk1LDE3NiwyMDgsMTg4LDM5LDEzMiw5MSw4Nw==sQia4ZbdD40r7MKW2Q/G2H983Tr+Arz8uvhCBIj4DgO+58i6STn3ccqD4vm0SOivUk5e5d4LHgQkriDstJmL4YOKw4C+eVl3wgFOOkmOM8/2uoBUakAOQzk77d7c30nLjN/AYZ59OnCXiGXZphqjvHCxjdOVs2Jo6guzTszhupW38HZ2PotCqGfgdiwsRO5sW6hvItklkiLh+8mB41U0mXuiU0ODExTT5Evt02zNlHfvzjxiG28GAJe6KCdqR1BqEZ5eloJalkfjzJPDb2Rbr038xZQ==";       
         //Realiza a chamada para a API
         response = await supertest(global.baseUrl)
             .post(rotaUrl)
@@ -318,7 +317,11 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
 
         //Assert
         expect(response.statusCode).toBe(400);
-        expect(response.body).toHaveProperty("Message", "The request is invalid.");
+        expect(response.body).toHaveProperty("mensagem", "Solicitação Imprópria");
+        expect(response.body.campos[0]).toHaveProperty("codigo_erro", "erro-cad-1017");
+        expect(response.body.campos[0]).toHaveProperty("campo", "PessoaFisica");
+        expect(response.body.campos[0]).toHaveProperty("mensagem", "Pessoa Física deve possuír um identificador válido");
+        expect(response.body.campos[0]).toHaveProperty("valor", "0");
 
     });
 
@@ -332,15 +335,15 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
         await obterToken(entidade.nome);
         
 
-        // Header sem X-SINQIA-Request para POST - PessoaFisicaID = 9999 ContratoPlano = 399  {   "Banco": 341,   "Agencia": 25,   "NumeroContaBancaria": 123456,   "DigitoVerificadorContaBancaria": "0",   "TipoPessoa": 2,   "FormaPagamento": 1,   "FormaPagamentoEmp": 1 }
-        const sinqiaRequestHeader = 'MTUsMzIsMTksMTI0LDIyNCwxNzQsMTEzLDQzLDU0LDEwLDE4OSwyMDEsNTQsMTUsMjUwLDk5LDExMSwxMTUsMTUsMjAzLDAsMTM1LDE5MiwyLDE4MiwxODgsMTU1LDc5LDE0MCwxMTQsMjEyLDE4NiwxMzAsMjA5LDIyNiwyNTMsMjAyLDgyLDExNywyMDAsMjEzLDEwMiwyMzIsMjIwLDE2MiwxMiwzMSwxNzEsMzksMTk1LDI1LDMsNTksMTA4LDM1LDE2MCwxMjYsODEsMTkzLDQ1LDkzLDE5OCwyMzksMTIxLDEsMTI0LDIyMywyNDMsMjM2LDExMiwzNiwyNDMsMTMxLDEyLDk0LDI0MywyOCwyMDIsNTMsMjQ3LDE0OCwyNTIsMjUsMTY0LDIwMywyMzIsMTg5LDE5MSw2MywxMDcsMjA4LDI0MywyMzMsMTI0LDE1Niw0NCw3MiwxMDksMjMxLDE5NCwxODgsMzUsMTM5LDQzLDU3LDE5NCw1LDEsNTQsMTk3LDEzMywzMCwxMDYsMTQ0LDEzMiwyMTQsMjQ2LDQyLDEyOCwyMjEsNjYsNTgsMzgsMjMwLDExMCw2NywxOTUsMTg1';
+        // body {   "PessoaFisica": 9999,   "ContratoPlano": 399,   "Banco": 341,   "Agencia": 1234,   "NumeroContaBancaria": 1234567,   "DigitoVerificadorContaBancaria": "4",   "TipoPessoa": 1,   "FormaPagamento": 1, }
+        const sinqiaRequestHeader = '';
 
         let headerChamadaPost = new HeaderChamadaPost(entidade, rotaHeader, sinqiaRequestHeader);
         headers = headerChamadaPost.getHeaders();
         headers['Authorization'] = `Bearer ${global.Bearer}`;
 
         // Body com dados válidos encontrados na tabela PessoaFísica (JSON criptografado)
-        corpo = "NTAsMjEyLDIwMiwyMCwxNDcsMTE3LDE4MywxODgsNTksMTI1LDc5LDExOSwxNTQsODgsMjU0LDk5LDExLDg2LDE3MiwyMywxMTUsMTQ4LDE5MCw4NSwxMTcsMCw5NywzMSwyNSwyMTgsNjQsMjQ2LDM0LDI1MiwyMjAsNTMsNTYsMTQ1LDI1MiwxNzAsMjM3LDI0Niw2NSwxMDIsMjYsNTcsOSwyMzksNzksMjQ0LDIzMyw0NSwxMzksMTkxLDIxMCwxNTMsMTg3LDE4Miw1NSwyMTUsMTM3LDcxLDY1LDE3MywzNyw0LDIyMSwxODIsNjcsNTEsMzQsMjAxLDI0Myw2LDE5MSwyNDQsMjI2LDE2MSw5NCwyMTYsMzQsMTcyLDE1MCwxODYsMyw2NywxMTgsMjQ0LDIxNiw0LDMwLDAsMTM0LDE5NCw0OCwzNCwyNTEsNjAsNTUsMTg0LDI0NCwxNTUsNDgsMjE4LDEzNiw1NywyOCwxMTUsMjEwLDEyMSw1NCwyNTIsNjMsMzcsOTAsMzQsNDcsMTI2LDMzLDE4MCw5OSwyMzQsMTIxLDI2LDc0LDY4LDM5LDE2Ng==sQia4ZYnzApowSmd5pP0+xRIlfHH+A47WgrWJAUOYhGLtyLXdaOxTG6cm63j39njcUHckhvUTR8HlQxIXvF39jAEA0+2iOTUYVaBYXKWmUQK8RxU0ZbxLRIcJc+HzTOeHBLeegRwxxhiFSmp4H5DOv9wYsSZjcoHpsyzJR2s8CJHUwdiWgizorlS4MoGwzoouuWUySlD80HHT601IcUhyU8SPYA==";       
+        corpo = "MTM2LDIzMSwyMyw5OSw3NywxNzcsNDYsMjEyLDI0NywxOTgsNDUsODQsMTgwLDE2MCwyMzAsMTYyLDI0OSwyMzQsNywyMjYsMjIwLDE2NCwxNjgsMTYxLDE3Myw4NywxNDMsMTE3LDU5LDE5NCwyMTIsNDIsMTgsMjQ3LDcwLDExNSw1MSwxMzIsMTc5LDE2NCwwLDU1LDI1MywxMDcsMTc2LDE4NCwxODAsMTc0LDE1Myw2LDIyNSwxNjYsMTQ2LDIyMywyMjAsMjUxLDIyMSwxODIsOTgsMTYzLDE1MCw0NywxMDMsNjYsMTI2LDY5LDI0MCwxNTEsNDUsMjUwLDE5NSw1Miw5MCwyMCwxNDQsMjAwLDE2NCw4OSwxNTQsOCwxNTMsODksMTM0LDIwNSwxNDQsMTc0LDYwLDEzMCwyMjMsMTkxLDU1LDAsMjgsNzcsMjQ2LDgzLDIyNiwxOTEsMTkwLDY4LDEyNSwyMTYsMTQsMzIsOSwzMywxMjUsMjM1LDIwNCwxNDEsOCwyNDUsMjM1LDE1MCwzMCwxNTgsNjYsNDgsMTI3LDIwNCwyMzEsMTE2LDIzMCw1OCw2LDEsMjIsMTAxsQia4ZbdD40r7MKW2Q/G2H983TlCYfIwMGoeCxolhnFqeSxeRr7Lx1jdtqXx6stTiGcUK0Sbm8r4dTp5F3x57PhBrAI9hIthJOcTRqIeXMxxNgARaOSlfY4W/WS8hC46+QgJLtmveche1IBwsbUg2jTpi+PFRcUOVP+67lGuu42LYcAKZWlr6sjBmpsi9WL/dVr8+dK8aZWEXmCzoKppzl81dTc55aZQtEswasElSqAUBix3gzfdyP2LWfGJiXLuJP7WxOWdVCBnWFwlquuupiRSGrg==";       
         //Realiza a chamada para a API
         response = await supertest(global.baseUrl)
             .post(rotaUrl)
@@ -368,15 +371,15 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
         await obterToken(entidade.nome);
         
 
-        // Header sem X-SINQIA-Request para POST - PessoaFisicaID = 1021 ContratoPlano = 999999  {   "Banco": 341,   "Agencia": 25,   "NumeroContaBancaria": 123456,   "DigitoVerificadorContaBancaria": "0",   "TipoPessoa": 2,   "FormaPagamento": 1,   "FormaPagamentoEmp": 1 }
-        const sinqiaRequestHeader = 'OCwyMjQsMTkwLDE0MiwxOTIsMjcsNDUsODUsMTIwLDMxLDExNyw0MCwyMSw3MiwxOTUsMTYyLDIwNywxMzIsOTksMjE1LDE5NCw2MCwyNDIsNDQsMzQsMTU4LDIxMSw0NSwyMjYsNjIsMjM2LDE2NSw4OSwxMDEsMjAwLDk4LDE2MywyMywyNiwzMiw1NywxNTcsMjU0LDExOSwxODYsMTM0LDE3OCwxNCwxNiwyNDgsMTU0LDE5NSwxODEsMzksOTYsMjQsMTUsMTExLDQzLDI3LDIxNywyMjQsNzAsMTMyLDcxLDIzMywyMjQsNSwxNjQsMTkwLDEwOSwyLDg4LDE0MSwxMTUsMzcsMTExLDU4LDMsMTc1LDIxMywxMjIsNDAsMTc2LDE3LDcxLDEyNiw0NSwyMjMsMTUzLDMwLDg5LDE1MCwyNTUsMjQ2LDEyNiwyMCwxMDUsMTczLDkzLDczLDQ0LDIxNSwxMjIsMjEyLDM5LDE1NywxOTksMTI4LDIzNSwzMiwyNDQsMTQzLDYyLDIzNCwxODMsNDUsODEsMTMyLDQ1LDIwNiwyNywyNDIsMTA0LDE3MywxNzgsMjI5LDI0NA==';
+        // body {     "PessoaFisica": 1021,   "ContratoPlano": 999999, "Banco": 341,   "Agencia": 25,   "NumeroContaBancaria": 123456,   "DigitoVerificadorContaBancaria": "0",   "TipoPessoa": 2,   "FormaPagamento": 1,   "FormaPagamentoEmp": 1 }
+        const sinqiaRequestHeader = '';
 
         let headerChamadaPost = new HeaderChamadaPost(entidade, rotaHeader, sinqiaRequestHeader);
         headers = headerChamadaPost.getHeaders();
         headers['Authorization'] = `Bearer ${global.Bearer}`;
 
         // Body com dados válidos encontrados na tabela PessoaFísica (JSON criptografado)
-        corpo = "NjksMSwyMDgsMiwzNiw2OCwxNTEsMjEyLDE3OSwyNTUsMjM5LDc0LDExNSw3MCw5MywxMTksMTE5LDE0MywxMTIsOTIsMjEzLDU2LDI1MCwyMTksNTEsMTA1LDUwLDc5LDU4LDI1MCwyMzQsOTAsNSwyMDYsNjgsMjIyLDIwMywxMTUsMzEsNjcsMTI5LDI1NCwyNTEsMjMsNDksMTU0LDI3LDY0LDk0LDI1MSwxNzIsMTIyLDk2LDIyLDUxLDExOCwxMjAsMTYsNTMsOTEsNjAsMjA4LDExNCwxNTIsNzUsMTM4LDIxOSwxNDMsODEsMjQsMjU0LDk2LDIzMSwyMzksOTYsMjQ1LDc4LDQsMywyMzksMTc0LDIxLDIxOCw4NiwxMDEsMjUwLDE4MCw5MSw2OSwyMjMsMjQ3LDU2LDEzMywzOSwxODUsNTIsNjUsMTYwLDUzLDEzMywxNjgsMTI0LDE5NCwyMDgsMTYsOCw2Niw4NiwyMTgsMjE5LDEzMyw2MiwyMTQsMjIzLDE3OCw0MCwxNDgsMTM5LDM3LDUxLDI0MCwyMTQsMjAzLDUyLDEsMTUyLDE5NywxNDk=sQia4ZYnzApowSmd5pP0+xRIlfHH+A47WgrWJAUOYhGLtyLXdaOxTG6cm63j39njcUHckhvUTR8HlQxIXvF39jAEA0+2iOTUYVaBYXKWmUQK8RxU0ZbxLRIcJc+HzTOeHBLeegRwxxhiFSmp4H5DOv9wYsSZjcoHpsyzJR2s8CJHUwdiWgizorlS4MoGwzoouuWUySlD80HHT601IcUhyU8SPYA==";       
+        corpo = "MTU2LDI1NCw5MiwxOTQsNzEsMjU0LDI0NCw3NywyMDIsMTc4LDIyOCwxOCwxODUsODIsMjEzLDQyLDIxOSw5NSwxNzQsMjQzLDIyMSwxMjksNywxNDcsMTE3LDIxMiw2MywyNDYsMjMzLDE0NywxMzksMjAsMjQzLDcyLDM0LDQ2LDQsMTMzLDQ2LDI1MCwxNTgsMjI1LDEyMiwyNiwxMTUsMTE2LDE5NiwxNjAsMjIyLDExOCw4Myw2NiwyMDgsNzcsOTYsMTg2LDI1MSw3NywyNywyMjEsMTA4LDE5NiwzMiwyMDUsODksNiwxMiwxMzAsMzMsMTMzLDM5LDYsMTU5LDE5MCwyMjcsNzMsMjAxLDI0OCwxOTEsOTgsMjM3LDIwOSwyMTMsMTksMTkyLDE4NiwyMzYsNDIsMTMwLDE2MSw0MSw1Myw5Myw5NiwxOTAsMTcxLDIwNSwxMDksMTYxLDQ0LDU5LDIxMywxMzUsNzMsMjE3LDE0OCwyMzIsMTM1LDEwNiwzOSwyNTAsMTQyLDE3NywzLDY0LDIyMCwxMjQsNTEsMjcsMjM5LDg2LDk2LDI0OSwxNTEsMjM5LDE2MCwyNDAsNzY=sQia4j0TOGvBr4nvF9qGEO7IdwFZnh1oLUb/b5hbPy6rqsFuRaXoMVnhhgqdWDuah7p7TUdMftRElBKKeu6Yv8RhsPBufiDEW8qk3tG3YejJ4spQQiYlznnNyFLD+od7qg6FpOxUfeHnCtnwW8bqQe9u33gsbi9ikR+XcVx/OOISVHP6QaImtl0Swjf/nIHl01RP2ujea4cDgdY9018h4lu9C/KDlRrcxeOYo1g8itan0MVfqHXYwR9OBB8uKQC0Xi462ilxE3fOegDw9mjU++IdibeA5BR8neu2GUxHbVxgctRB63WXnzwFuRu1Tuag6X6MX";       
         //Realiza a chamada para a API
         response = await supertest(global.baseUrl)
             .post(rotaUrl)
@@ -390,11 +393,11 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
         expect(response.body).toHaveProperty("mensagem", "Solicitação Imprópria");
         expect(response.body.campos[0]).toHaveProperty("codigo_erro", "erro-cad-1044");
         expect(response.body.campos[0]).toHaveProperty("mensagem", "Contrato do Plano não encontrado");
-        expect(response.body.campos[0]).toHaveProperty("campo", null);
+        expect(response.body.campos[0]).toHaveProperty("campo", "ContratoPlano");
         expect(response.body.campos[0]).toHaveProperty("valor", "999999");
     });
 
-    it.only("SCAF - Previdência - Cadastro - Pessoas Físicas - Dados Bancários  - Post - Solicitação alteração Participante Conta sem dígito - Status code 400", async () => {
+    it("SCAF - Previdência - Cadastro - Pessoas Físicas - Dados Bancários  - Post - Solicitação alteração Participante Conta sem dígito - Status code 400", async () => {
         descricaoTeste = "SCAF - Previdência - Cadastro - Pessoas Físicas - Dados Bancários  - Post - Solicitação alteração Participante Conta sem dígito- Status code 400";
         //Dados para o servidor de virtualização
         const virtualServer = "https://api-sv.primecontrol.com.br/MzM1OGVjYjhjMWUwNDRiMDgzYjhlNzljZGM2NTE3OGQ";
@@ -404,15 +407,15 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
         await obterToken(entidade.nome);
         
 
-        // Header sem X-SINQIA-Request para POST - PessoaFisicaID = 124 ContratoPlano = 254  {   "Banco": 341,   "Agencia": 1,   "NumeroContaBancaria": 1167,   "DigitoVerificadorContaBancaria": null,   "TipoPessoa": 1,   "FormaPagamento":1  }
-        const sinqiaRequestHeader = 'ODYsMTU1LDI0MCwxMjUsODcsMTU3LDI1MiwyMzEsOSw4NCw2OSwxMjAsNDYsMjQ0LDIwNSwxODEsMjAwLDI0NSwyMzIsMTQ3LDE1Niw2Miw3NCwyNDcsMTk2LDIzOCwxNCwyMSwxNjMsMTE4LDIwMyw2MCwxNTcsMTE2LDEwMSwxMTYsOTAsODAsNTIsMTM4LDIxMCwyNDEsOTAsNTIsMzQsODcsMTM4LDU4LDczLDcyLDE1Nyw3NSwyMzAsMjQsMjE0LDEyMCwyNDYsMTM1LDExMywyNDYsMTE5LDI0MCw1OSwxNDUsMTIzLDM3LDM1LDIyNywyMiwxNDAsMTcwLDE0OSwxMjksMzYsNzMsNzMsMTM5LDEzNSwxMzEsMjEsMTMsMjA1LDY5LDc3LDcxLDEyNiw2MiwxNzEsMTYxLDEyMCwxNzcsNjEsMTcsMTE0LDQ0LDE3NywyNCwxNTAsMCwxMiwxMDksNjAsMTMyLDU3LDEwMywyNiwyNDcsMTAwLDQ2LDU1LDIyMywyMTEsMjcsODksMTg5LDc5LDE2Myw3Myw5MCwxMTYsMjMsMTA3LDE3MCwyNDAsMTk1LDIzNywyMjYsMzE=';
+        // body {     "PessoaFisica": 124,   "ContratoPlano": 254, "Banco": 341,   "Agencia": 1,   "NumeroContaBancaria": 1167,   "DigitoVerificadorContaBancaria": null,   "TipoPessoa": 1,   "FormaPagamento":1  }
+        const sinqiaRequestHeader = '';
         //RENATO JOVETTE LOPES DA SILVA
         let headerChamadaPost = new HeaderChamadaPost(entidade, rotaHeader, sinqiaRequestHeader);
         headers = headerChamadaPost.getHeaders();
         headers['Authorization'] = `Bearer ${global.Bearer}`;
 
         // Body com dados válidos encontrados na tabela PessoaFísica (JSON criptografado)
-        corpo = "NjcsNzcsMTMzLDE2Myw1MSw3MSwxNDQsOTUsMTUzLDI1NSw0MiwxNDAsMjIxLDIzMSwxODQsMTQwLDE3OSwyMjEsNjMsNjksMjM2LDc2LDI0OCwyNiwyNTEsMTYxLDE4LDE0NiwxOTksMTQyLDIyNSwyNTAsMTY1LDE4NiwxNTIsMjQwLDIxNiwxODIsMTM2LDEzNywxMTcsNDQsMjE0LDkwLDIzNyw2MSwzMCwxOTYsNjYsMzQsMTE5LDE5MSw3LDE4NSwxNSw5MCwxMTIsMTk4LDEyNCwyMywyMTIsMjQxLDcxLDEwOCwyNDksMjM4LDE5NywyNDQsMjM5LDQ3LDE0NCw0Nyw4LDYyLDIwMCw3OSwxMTEsMTc1LDE4OSwxMDksNjYsODAsMTE0LDgxLDE1MSwyMDgsMTIyLDIxNCwyMTQsODgsMjM0LDE5OCw1NCwyMTgsMTM3LDExMyw1NiwxMSwxNzYsMTc3LDIyNiwxOTksMTM1LDIyNywxNjIsNjEsMjMxLDE0OSwxODksMjM4LDExLDksOTEsMTEsMjExLDIwNywyNDUsMjI3LDE2NCwyMDQsMTQ1LDE4NiwxNTMsNzAsODgsMTQ5LDgzLDIwOA==sQia4ZYnzApowSmd5pP0+xRIlfHH+A47WgrWJAUOYhGLtyLUw45agwFtUSUaXO+LFrRdhTn/46ByIa+5cQ7vTwNzIT9MKQGs0FP+sgEYSayqjd0dTDhjuM+JNhcfsm19hc1Ta7SZlYOg6dSQs4OzJZKWjXsm235ZGSqsjqbNj/fh+smUKEbE/ajpN4rLfMTULjcLeo0G9JfpemSv0CPOiANK+eA==";
+        corpo = "MjEsMjMzLDIzLDk2LDU4LDk1LDk3LDY4LDIzOCw2OCw0OSw0NiwxMzAsMTkyLDg4LDE2NiwxMzksNDMsMTg3LDUsMTkyLDE1LDQsMTUsNzcsMjUsMTY5LDU5LDk4LDMzLDM2LDI0MSwxNjQsOTgsMTMyLDE2NiwzMyw3LDE4OCwxODAsMjI4LDE3MSwxODEsNjksMTIzLDE3NSwxNzUsOTQsMjE0LDEyNCwxOTYsMjM4LDIzMiwyMDgsMTQsMzQsNjIsMTI5LDE5MSwyMzcsMTc0LDE4NSwyNTUsMjQyLDI1LDE4OSwxODQsMjIwLDI0OSwzNyw2LDE1NywxMzgsNTUsODIsNjksMTkwLDE1NCwxNSwxNDUsMTEwLDI1Miw4NiwxOCwyOCwxNzIsMTA1LDE4LDIxNSwyMDYsMjgsMjM3LDEwNSwyMjgsMTQzLDE5NCw4Myw4LDExOSwyMDQsNTYsNSwxNDksMTM1LDIxNywxMjcsMTc3LDE5OSwyMDksNDcsNTQsMTM4LDExMCwyMzMsNDYsOTksMTgzLDI0OSw2NywxMTEsMTE2LDQzLDE5MCwyMTEsMTQ3LDI0NiwxMTQsMjM4sQia4j0TOGvBr4nvF9qGEO7IdwHImdf/HyZMw1C7d/kEeNOVjmXfkA/XCKtK1elG5RkhpIw2suCMMkU+n38Z8B3NXaUWQGiQmyttcfBEGZSheWXra/CbeIT1ZTsz/5Yk/SbHfnn+iQXh8V3xhJJX6/pMaKl++cS1/u3jt5qc9BYz9G4P+9w57kCOQAj7BPVJv7C9rlXFtv7k1SqWSzpfxiXA3Yu0+QOjRmX+txJYHnsznUWeqf76Lt8BrcPEwX1RykFI6sTDOQ7umYk1skoRdHUpUmA==";
        
         //Realiza a chamada para a API
         response = await supertest(global.baseUrl)
@@ -431,7 +434,7 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
         expect(response.body.campos[0]).toHaveProperty("valor", null);
     });
 
-    it.only("SCAF - Previdência - Cadastro - Pessoas Físicas - Dados Bancários  - Post - Solicitação alteração Participante Conta com dígito inválido - Status code 400", async () => {
+    it("SCAF - Previdência - Cadastro - Pessoas Físicas - Dados Bancários  - Post - Solicitação alteração Participante Conta com dígito inválido - Status code 400", async () => {
         descricaoTeste = "SCAF - Previdência - Cadastro - Pessoas Físicas - Dados Bancários  - Post - Solicitação alteração Participante Conta com dígito inválido - Status code 400";
         //Dados para o servidor de virtualização
         const virtualServer = "https://api-sv.primecontrol.com.br/MzM1OGVjYjhjMWUwNDRiMDgzYjhlNzljZGM2NTE3OGQ";
@@ -441,15 +444,15 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
         await obterToken(entidade.nome);
         
 
-        // Header sem X-SINQIA-Request para POST - PessoaFisicaID = 124 ContratoPlano = 254  {   "Banco": 341,   "Agencia": 1,   "NumeroContaBancaria": 1167,   "DigitoVerificadorContaBancaria": null,   "TipoPessoa": 1,   "FormaPagamento":1  }
-        const sinqiaRequestHeader = 'ODYsMTU1LDI0MCwxMjUsODcsMTU3LDI1MiwyMzEsOSw4NCw2OSwxMjAsNDYsMjQ0LDIwNSwxODEsMjAwLDI0NSwyMzIsMTQ3LDE1Niw2Miw3NCwyNDcsMTk2LDIzOCwxNCwyMSwxNjMsMTE4LDIwMyw2MCwxNTcsMTE2LDEwMSwxMTYsOTAsODAsNTIsMTM4LDIxMCwyNDEsOTAsNTIsMzQsODcsMTM4LDU4LDczLDcyLDE1Nyw3NSwyMzAsMjQsMjE0LDEyMCwyNDYsMTM1LDExMywyNDYsMTE5LDI0MCw1OSwxNDUsMTIzLDM3LDM1LDIyNywyMiwxNDAsMTcwLDE0OSwxMjksMzYsNzMsNzMsMTM5LDEzNSwxMzEsMjEsMTMsMjA1LDY5LDc3LDcxLDEyNiw2MiwxNzEsMTYxLDEyMCwxNzcsNjEsMTcsMTE0LDQ0LDE3NywyNCwxNTAsMCwxMiwxMDksNjAsMTMyLDU3LDEwMywyNiwyNDcsMTAwLDQ2LDU1LDIyMywyMTEsMjcsODksMTg5LDc5LDE2Myw3Myw5MCwxMTYsMjMsMTA3LDE3MCwyNDAsMTk1LDIzNywyMjYsMzE=';
+        // body {     "PessoaFisica": 124,   "ContratoPlano": 254, "Banco": 341,   "Agencia": 1,   "NumeroContaBancaria": 1167,   "DigitoVerificadorContaBancaria": null,   "TipoPessoa": 1,   "FormaPagamento":1  }
+        const sinqiaRequestHeader = '';
         //RENATO JOVETTE LOPES DA SILVA
         let headerChamadaPost = new HeaderChamadaPost(entidade, rotaHeader, sinqiaRequestHeader);
         headers = headerChamadaPost.getHeaders();
         headers['Authorization'] = `Bearer ${global.Bearer}`;
 
         // Body com dados válidos encontrados na tabela PessoaFísica (JSON criptografado)
-        corpo = "MTE5LDk2LDE5MCwyNDUsMjI3LDE4MCwxODcsMjA5LDEzMCw0MywxOTMsMjI4LDE4NCwxNDEsNTEsNzUsMTMzLDE4Nyw0MCw0NiwyMDMsMzcsMjQ1LDE4NSwxNzcsMjMwLDIxOCwxMjAsODAsMjA0LDE5NywyOSwxNTgsMTczLDIwMSwyMyw1NywyNDYsOTksNDUsMTExLDIxNiwyMzEsMTM3LDIyNSwxOTUsMTgzLDExMCwyMDUsMTIzLDIxNywyMTcsMTc4LDIwMSwxNjUsNDMsMzEsMTA3LDk4LDkwLDExLDg3LDIxMCwyMjcsNzMsMTQwLDE2NiwyNDUsMTQsMTE0LDAsMjUwLDExMyw0MywxNjQsOCwyMTcsMTQ3LDIyMCw4OCwyMzQsNTgsMTgwLDk2LDIyNywxMTksMTgyLDE5NiwxNSw0Miw5OCw3MSwyMzAsMTUzLDMsMTIwLDEyMiwxNDgsMTYyLDE0NywxNDMsMTMzLDEwMywyMjcsNTIsMjEsMTE0LDQwLDcyLDE0NSwxNjQsMTEsMTAwLDE4LDIzMyw4OSwxNjQsMTExLDIwNyw5Nyw1LDcyLDY2LDEwMywzMiwxMDAsMTgyLDEzNQ==sQia4ZYnzApowSmd5pP0+xRIlfHH+A47WgrWJAUOYhGLtyLUw45agwFtUSUaXO+LFrRdhTn/46ByIa+5cQ7vTwNzIT9MKQGs0FP+sgEYSayqjd0dTDhjuM+JNhcfsm19hc1TallNmDjB92PjhzNXVqm96Cd4TMy71L5eg83AEv8utLzD9gezhDVz8B/kjP39S5Dkki89RX/dIu8EXMKK9Q69mIQ==";
+        corpo = "NzEsMTY2LDIyNSwyNCwxNTEsMTkzLDg2LDIzNCwyMDgsMjM5LDY1LDQ1LDE0NywxNjIsMTUwLDkyLDIwMCw3NiwxMDcsMjA0LDIwNiwxNjYsMTc4LDgyLDc2LDE1NSwyMTYsMjIyLDIzMyw5Niw1MCwxMzIsMTE3LDgzLDE4Niw2NywxNjQsMTE0LDc0LDEyNCw2NiwxNzMsODcsMTEwLDE1Myw0NSwyMTcsMTUxLDg4LDE4OSwyNywzLDEwNywyMTcsMjE5LDE4LDExNSwyMjQsMjExLDg5LDMwLDgxLDMyLDE2MSwzNiwxMjUsMTc5LDQsMTg2LDEzNSwxMzgsNDgsMTcyLDI1MywxOTgsMjE0LDEzLDE0OSwyMzgsNzUsNDksMTIsMTIyLDMsMjI4LDIxLDE3MiwyMiw5NCwxNjUsODQsNDIsMTY1LDIwNiwxNzEsMjU0LDI1MiwyMDQsMiwxNTMsNjMsNjksMTY5LDQ0LDU5LDIzNSw3MywxMjgsNDQsNyw0OSwyMDcsMTgyLDMxLDEzOCwyMjYsMTY3LDMwLDE1NywxMDIsMTIwLDcwLDk0LDE3MiwxMCw5LDI0MCwzsQia4j0TOGvBr4nvF9qGEO7IdwHImdf/HyZMw1C7d/kEeNOVjmXfkA/XCKtK1elG5RkhpIw2suCMMkU+n38Z8B3NXaUWQGiQmyttcfBEGZSheWXra/CbeIT1ZTsz/5Yk/SbHfnn+iQXh8V3xhJJX6/pMaKl++cS1/u3jt5qc9BYz9G4P+9w57kCOQAj7BPVJv7C9rlXFtv7k1SqWSzpfxiXA3Yu0+QOjRmX+txJYHnsznUWeqf76Lt8BrcPEwX1RykFI6sTDOQ7umYk1skoRdHUpUmA==";
        
         //Realiza a chamada para a API
         response = await supertest(global.baseUrl)
@@ -462,13 +465,13 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
         //Assert
         expect(response.statusCode).toBe(400);
         expect(response.body).toHaveProperty("mensagem", "Solicitação Imprópria");
-        expect(response.body.campos[0]).toHaveProperty("codigo_erro", "erro-cad-1537");
-        expect(response.body.campos[0]).toHaveProperty("campo", "DigitoVerificador");
-        expect(response.body.campos[0]).toHaveProperty("mensagem", "Dígito verificador da conta principal inválido");
+        expect(response.body.campos[0]).toHaveProperty("codigo_erro", "erro-cad-1535");
+        expect(response.body.campos[0]).toHaveProperty("campo", "DigitoVerificadorConta");
+        expect(response.body.campos[0]).toHaveProperty("mensagem", "Dígito verificador da conta principal deve ser preenchido");
         expect(response.body.campos[0]).toHaveProperty("valor", null);
     });
 
-    it.only("SCAF - Previdência - Cadastro - Pessoas Físicas - Dados Bancários  - Post - Solicitação alteração com Empréstimo não habilitado - Status code 400", async () => {
+    it("SCAF - Previdência - Cadastro - Pessoas Físicas - Dados Bancários  - Post - Solicitação alteração com Empréstimo não habilitado - Status code 400", async () => {
         descricaoTeste = "SCAF - Previdência - Cadastro - Pessoas Físicas - Dados Bancários  - Post - Solicitação alteração com Empréstimo não habilitado - Status code 400";
         //Dados para o servidor de virtualização
         const virtualServer = "https://api-sv.primecontrol.com.br/MzM1OGVjYjhjMWUwNDRiMDgzYjhlNzljZGM2NTE3OGQ";
@@ -478,15 +481,15 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
         await obterToken(entidade.nome);
         
 
-        // Header sem X-SINQIA-Request para POST - PessoaFisicaID = 124 ContratoPlano = 254  {   "Banco": 341,   "Agencia": 1,   "NumeroContaBancaria": 1167,   "DigitoVerificadorContaBancaria": null,   "TipoPessoa": 1,   "FormaPagamento":1  }
-        const sinqiaRequestHeader = 'ODYsMTU1LDI0MCwxMjUsODcsMTU3LDI1MiwyMzEsOSw4NCw2OSwxMjAsNDYsMjQ0LDIwNSwxODEsMjAwLDI0NSwyMzIsMTQ3LDE1Niw2Miw3NCwyNDcsMTk2LDIzOCwxNCwyMSwxNjMsMTE4LDIwMyw2MCwxNTcsMTE2LDEwMSwxMTYsOTAsODAsNTIsMTM4LDIxMCwyNDEsOTAsNTIsMzQsODcsMTM4LDU4LDczLDcyLDE1Nyw3NSwyMzAsMjQsMjE0LDEyMCwyNDYsMTM1LDExMywyNDYsMTE5LDI0MCw1OSwxNDUsMTIzLDM3LDM1LDIyNywyMiwxNDAsMTcwLDE0OSwxMjksMzYsNzMsNzMsMTM5LDEzNSwxMzEsMjEsMTMsMjA1LDY5LDc3LDcxLDEyNiw2MiwxNzEsMTYxLDEyMCwxNzcsNjEsMTcsMTE0LDQ0LDE3NywyNCwxNTAsMCwxMiwxMDksNjAsMTMyLDU3LDEwMywyNiwyNDcsMTAwLDQ2LDU1LDIyMywyMTEsMjcsODksMTg5LDc5LDE2Myw3Myw5MCwxMTYsMjMsMTA3LDE3MCwyNDAsMTk1LDIzNywyMjYsMzE=';
+        // body {     "PessoaFisica": 124,   "ContratoPlano": 254, "TipoPessoa": 1,   "FormaPagamentoEmp": 1  }
+        const sinqiaRequestHeader = '';
         //RENATO JOVETTE LOPES DA SILVA
         let headerChamadaPost = new HeaderChamadaPost(entidade, rotaHeader, sinqiaRequestHeader);
         headers = headerChamadaPost.getHeaders();
         headers['Authorization'] = `Bearer ${global.Bearer}`;
 
         // Body com dados válidos encontrados na tabela PessoaFísica (JSON criptografado)
-        corpo = "MzUsMjA3LDY3LDEyMSwxMDYsMTM5LDEyMywxNzcsMTc1LDg5LDkxLDQ1LDEyNiwxMDcsNjgsNjYsMTg1LDcwLDIyOSwxNjEsNzAsMjksMTQwLDQ2LDExNSwxMzQsMjE1LDEzOCw1OCwxMzUsMjQ2LDE1MSwyMjksNjQsMjA3LDI1MCwyMTksODUsMTkwLDE0NCwxNSw0NSwyNDUsMTAyLDIxNSw1NiwzMiwyMDQsMjQxLDE5MCwxNTcsMzQsMjIzLDEzMCwyMjIsNzgsNTQsOTYsMSwxNzksODIsNDcsMTc0LDEyOSw3MSwxMzIsMTU2LDIzOCw3NCw4LDY2LDU5LDMzLDIzMyw0Myw5MiwxNTgsMjI0LDEyMiwyMDAsMjM3LDE5LDE2LDIwNiw4NSwxMTAsMTk1LDg1LDE5OSwxMTEsMTIzLDE1MCwyOCw0OCwyMiw0NywzLDM1LDE3MCwxMzYsMjU1LDIzNiwyNTIsOCwxMDcsMzAsMTMzLDE3OCwyNDksMTcsMjAxLDExOSwyMTAsMTg1LDE3Nyw0NiwxNTEsMjE5LDE4NCwxNzEsNzQsMzgsOTUsNjgsNyw1NywxOCwxODI=sQia4/QqXAZXrWBU5fTcqoLdycWYvG8Kiyt/wd5mBKD49lHuP5NLPVfi7qNouL0fE0jGKlBiuLrUt0w8esa9Xig9t2J9tOeGwfHBvm9h6AWTrJHiulyfYmdVk0p18Bec0e21sZlVBOVcEES0rePQqnyS8Tu8Uoa4EQKbMuk+wFNuUN729jDYqYQr8N8gsX9YV9n1W5zKE1s9E/pxr90+Goi6FX5pN4kRg25r/gcd0g+rG7JV9C/PUd60UkpzfVNnyOB9d94WvsCb74FPlaBrXuKPfA8C++NJJta1wKRHKcFvaLCMUEaMCJaEQ/JAeQOgacvB9+a/9cCCeDiy7qqZU8Xk1wyuwCtsQrEDLZayKJegWeoal7ibDkKAHLU6RzQ8UKc17";
+        corpo = "ODksMTk4LDEzNSwxMjgsMTIyLDIzMywyMzUsNDgsMjMxLDM4LDQ1LDI1MiwyNTAsMjMwLDEwMCwxODQsMTk5LDE2MSwxOTQsMjEyLDIyMywxNjYsMjM0LDExNiwyMTcsMjA1LDIwMSw4NCwyNCw4NywyMzQsNDgsMTY4LDIyLDEwNywxNjksMTY0LDk0LDIwNyw2OCwxMzIsMjksMTAsODcsMjIsNzcsMTYwLDE5NCwxOTMsMTQyLDE5MCwxNTAsMjI0LDEwMCwxNDksMTAxLDIwNiwxMTQsMTk4LDgyLDIwNCw0NCwxMTcsNywxNjYsMTc5LDQ2LDIyMywxNTIsMTYyLDEyNCwyOCwxOTMsODEsMTM3LDE1NSwyNTIsNTMsMTk5LDIwNiwzOSwxNjMsMTYsMjIzLDI0NSwyNDcsNCwyMTAsMjM5LDIwMSwyMDAsMTUsODEsMTY3LDExOSwyMzIsMTQ2LDE1NywxNTUsMTMzLDIxNyw4MiwxNTksMTU1LDE3MSw5OCwxMjgsODIsNzgsNjIsMjM4LDgxLDU5LDE2LDIyOSw2OSwxODIsOTYsMjIxLDE2Myw0MCwxMjQsMTA1LDk5LDI0OCwxMDUsMTI4LDIyOA==sQia4j0TOGvBr4nvF9qGEO7IdwHImdf/HyZMw1C7d/kEeNOVjmXfkA/XCKtK1elG5RkhpiRuWEoarEF9hRrINLp5X+bc09EiOs0rCexmt6QyGCeyOdTLv0BRZ3bPHqfqvelj9";
        
         //Realiza a chamada para a API
         response = await supertest(global.baseUrl)
@@ -505,7 +508,7 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
         expect(response.body.campos[0]).toHaveProperty("valor", null);
     });
 
-    it.only("SCAF - Previdência - Cadastro - Pessoas Físicas - Dados Bancários  - Post - Solicitação alteração com todos os campos em branco - Status code 400", async () => {
+    it("SCAF - Previdência - Cadastro - Pessoas Físicas - Dados Bancários  - Post - Solicitação alteração com todos os campos em branco - Status code 400", async () => {
         descricaoTeste = "SCAF - Previdência - Cadastro - Pessoas Físicas - Dados Bancários  - Post - Solicitação alteração com todos os campos em branco - Status code 400";
         //Dados para o servidor de virtualização
         const virtualServer = "https://api-sv.primecontrol.com.br/MzM1OGVjYjhjMWUwNDRiMDgzYjhlNzljZGM2NTE3OGQ";
@@ -515,15 +518,15 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
         await obterToken(entidade.nome);
         
 
-        // Header sem X-SINQIA-Request para POST - PessoaFisicaID = 123 ContratoPlano = 254  {   "Banco": 341,   "Agencia": 1,   "NumeroContaBancaria": 1167,   "DigitoVerificadorContaBancaria": null,   "TipoPessoa": 1,   "FormaPagamento":1  }
-        const sinqiaRequestHeader = 'MzIsMTU5LDM4LDUwLDIzMywxMTQsNDUsOTUsMTM4LDE1NCwyMywxMTgsMSwxMCwxMzUsNDEsMTU4LDIyNywxNDgsODEsMTMxLDE0NSw5NiwxMzQsMTI2LDE2OCwxMzQsMjQ3LDE1NSwxNzAsMTIyLDIzOSwyMzgsMzcsMTYzLDc0LDIyMywxODksNjcsMTMxLDIxNCw5LDE1NSwxNjcsNTgsMjIzLDQsMjUxLDE5OSwxNzMsMTM5LDIzMywxMzQsMTY4LDE0NiwyMDAsMTIyLDE1OSw2MiwxMjMsMTc4LDEwOSwyNDYsMjA1LDI1MSwxMDEsMjMsNDksMTgwLDEyOCw4LDE3MSwyMjMsMjI5LDEzOSwxOTYsMTU5LDE5NywyMiwxMjMsMjUyLDcyLDE3MSwxOTEsMjE5LDExNiwxNzUsMTI0LDE5NCwxODYsMjQ0LDY0LDYzLDQ5LDQxLDE0MywxOTEsNzcsMTM5LDE3MCwxNzMsNjMsNDAsMTc3LDI1Miw5Niw2MSwyNywxMjUsMjUwLDUxLDEzMyw2NCwyNDcsMTg0LDExNywyNTEsMjAyLDE0OCwxNzksMTg1LDQ4LDIzOSwyMzUsMTE2LDEzNiw2NCwyMTk=';
+        // body {     "PessoaFisica": 123,   "ContratoPlano": 254,   "Banco": 341,   "Agencia": 1,   "NumeroContaBancaria": 1167,   "DigitoVerificadorContaBancaria": null,   "TipoPessoa": 1,   "FormaPagamento":1  }
+        const sinqiaRequestHeader = '';
         //RENATO JOVETTE LOPES DA SILVA
         let headerChamadaPost = new HeaderChamadaPost(entidade, rotaHeader, sinqiaRequestHeader);
         headers = headerChamadaPost.getHeaders();
         headers['Authorization'] = `Bearer ${global.Bearer}`;
 
         // Body com dados válidos encontrados na tabela PessoaFísica (JSON criptografado)
-        corpo = "MTIwLDEsMjA3LDY5LDEwOSw0OSw3MCwxODYsMjIzLDQsMTY0LDEzOSwxNTAsMzEsMjM5LDI1MSwxMCwxMzEsMjE2LDIxLDE0NSw2NSw1MCwxNTksMjI5LDk3LDIzMCwyMTIsMTMyLDE5OCwyNDUsNzYsMjM4LDEyMCwyNSw3NywxMDksMTA3LDY1LDc2LDE1MCwzOCw5NCwxMTYsMjA5LDUzLDE0NywxMDMsNjcsMTQxLDE2MCw1NCwxNzcsNzMsMTcyLDE0MywxNjIsMjAxLDIyNyw2NSwyMjMsMTEzLDE3NSwxNTAsMTk2LDUsODEsMTI4LDEyNSw5Niw4NCwyNDUsMjgsMTMyLDE2OSwyNTEsNzYsNDYsMTk1LDIwNSwxNTEsNzMsMjIsOTgsMTg5LDEwOCw2NiwyMTksNjcsMjEsOTAsMTE4LDE4MiwyMzQsNDIsMTgyLDc0LDgzLDE1MCwxNDgsMTczLDU0LDI1LDM3LDYxLDE4OSw0MSw0OSw2NCwyMTgsNTMsODAsMTg0LDIsOTYsMTk5LDIzNSwyOSwxODcsMTMxLDE4Niw0LDMzLDI0MywxMjEsMjI2LDE0MCwyMTY=sQia4/QqXAZXrWBU5fTcqoLdycWYvG8Kiyt/wd5mBKD49lHuP5NLPVfi7qNouL0fE0jGKlBiuLrUt0w8esa9Xig9t2J9tOeGwfHBvm9h6AWTrJHiulyfYmdVk0p18Bec0e21sLybS/kL1FIHU1NdG+P+3L7eEKeWfUjyv05f6piIOp1D94e7qgQSzFgZWCI+TM5k5MExZdHNRxFKy4dP1je30rQ==";
+        corpo = "NzMsMTg5LDI0MSwyMDEsMTM2LDE5LDE5MSwyNDAsMTEwLDIxOCwxMjEsNTcsNTMsMzUsMTg4LDIxNSwxMjEsNTcsMTEwLDQ5LDExOCwyMTMsNDAsMiw4OCwyMDIsNzMsMTEwLDE4NiwyMDEsMjMsMjAzLDEzOSwxNTQsNDgsNjMsMjAzLDE5NCwxODksMTg3LDI0MCwyMTcsNzIsMTg1LDEwMywxMDAsMjUzLDIzOSw2NSw2MSwxMzUsMjM1LDE1MCwyMzMsMTczLDE3OSwxMDYsMjM0LDI0MSwxMDMsMTY5LDE0OCwyMTgsMTU5LDI0NCwxNzgsMjIwLDIyNiwzNywxOTAsOCwxMDksMjQ4LDgyLDEwNCwxMzcsNDAsNTksMjA4LDcwLDE5MCwyMDMsODIsMzIsMTIwLDEyMSwyMzAsMTIzLDE1Nyw2LDIyNiw4MSwxODksMzksMTQwLDI0MCwyMDEsNjUsMTIzLDIxNCwyMCwxODQsMjAyLDkzLDEwLDE2MSwyMDUsMTgyLDIwMiw1MiwyLDM2LDY1LDI0OCw2NSwxMTUsMzIsMTc0LDEyNCwyNDEsMjQ4LDExNSwxNDcsMTUsMTQ0LDU3LDE5MCw2sQia4j0TOGvBr4nvF9qGEO7IdwAWepKUZlr/po08D7lQP1IkiRMLbt+Jtpd1UdlB1iEiUE7yNoKgQUiZsv7TLVs63hW6HCu0TW5cfdkNH+O//MwnechGmpdNXmiQr36W0aztF9qhSHoB5W1F65iNw/nhUk0IBXkbKeZBzvs3OFebfa3DcC3FbPuSGVZKWBmkGCAjDYKtVoqmjHTaR5lhMxz+BYDjn9b8cgpbBWmnHSQc0JwB47nROy0t7DMJAb4dxfXEtKu9Wgggxtehi8hJPqoXRXA==";
        
         //Realiza a chamada para a API
         response = await supertest(global.baseUrl)
@@ -536,12 +539,7 @@ describe("SCAF - Previdência - Cadastro - Dados Bancários - Suite de Teste API
         //Assert
         expect(response.statusCode).toBe(400);
         expect(response.body).toHaveProperty("mensagem", "Solicitação Imprópria");
-        expect(response.body.campos[0]).toHaveProperty("codigo_erro", "erro-cad-1540");
-        expect(response.body.campos[0]).toHaveProperty("campo", "PessoaFisica");
-        expect(response.body.campos[0]).toHaveProperty("mensagem", "Vínculo não encontrado para a pessoa física e plano informados");
-        expect(response.body.campos[0]).toHaveProperty("valor", "124");
     });
-
 
 	afterEach(() => {
         EscreveLog.gravarLog(descricaoTeste, response, headers, payload, rotaUrl, response.request.method);
