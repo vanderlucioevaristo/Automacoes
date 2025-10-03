@@ -145,5 +145,6 @@ describe("SCAF - Previdência - Cadastro - Participante - Suite de Teste API", (
         global.virtualResponse = null;
         global.Bearer = "";
         descricaoTeste = "";
+        
     });
 });
