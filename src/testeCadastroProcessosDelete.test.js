@@ -181,6 +181,8 @@ describe("SCAF - Previdência - Cadastro - Processos - Suite de Teste API", () =
        // expect(response.body.Data).toHaveProperty("Status", "Rejeitado");
     });
 
+
+
 	afterEach(() => {
         EscreveLog.gravarLog(descricaoTeste, response, headers, payload, rotaUrl, response.request.method);
         global.apiResponse = null;
