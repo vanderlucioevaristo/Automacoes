@@ -33,16 +33,6 @@ async function criptografaDados(userName,queryString, bodyString, publicKey) {
    }
    const sendBody = JSON.stringify(dados);
 
-  // Realiza a chamada para obter o token
-    const response1 = await supertest("https://homolapi1.sinqiaprevidencia.com.br")
-    .post("/admin/api/admincliente/encrypt")
-    .set("Accept", "application/json, text/plain, */*")
-    .set("Accept-Language", "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7")
-    .set("Content-Type","application/json;charset=UTF-8")
-    .set("Authorization", `Bearer ${global.BearerLogin}`)
-    .send(`{"key":"PFJTQUtleVZhbHVlPjxNb2R1bHVzPnNjYStwdS9PaTVQTjB5N3A3cDN6SVVqL0pVVjNkV2VLODJZaWt5ZVZIWmVnb0xhSWFXQVFUNk1pMUR2OWRFek5yN21mcnNoOUhCcDg3bVlDa3FkUkE3c2NZZTZpTFh1dC9TdkF1a0lEcStLclVmUVNRTzFIYTFjMWdWSDA4S1BHRnBsUitQWHVrazhJanIyMG1OQWxERHpxaFY4MHErQUlQV0xlZFBTZWdpVT08L01vZHVsdXM+PEV4cG9uZW50PkFRQUI8L0V4cG9uZW50PjwvUlNBS2V5VmFsdWU+","queryString":"65645/9570","body":{"salario":5000}}`)
-
-
     const response = await supertest("https://homolapi1.sinqiaprevidencia.com.br")
     .post("/admin/api/admincliente/encrypt")
     .set("Accept", "application/json, text/plain, */*")
@@ -53,8 +43,6 @@ async function criptografaDados(userName,queryString, bodyString, publicKey) {
 
 
   // Armazena os dados criptografados
-  const teste = response1.body.m_Item1;
-  const teste1 = response1.body.m_Item2;
   global.queryStringCripto = response.body.m_Item1;
   global.bodyStringCripto = response.body.m_Item2;
 }
