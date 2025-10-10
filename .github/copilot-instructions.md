@@ -90,3 +90,28 @@ Entities are defined in `globals/entidades.js` with Basic auth and clientKey. Cu
 - `global.baseUrl`: API base URL
 - `global.Bearer`: Authentication token
 - `global.apiResponse`: Last API response for debugging
+
+## Instruçoes para criar os BDD´s dos casos de teste
+
+1. Identifique o cenário de teste que deseja automatizar.
+2. Crie um arquivo `.feature` correspondente na pasta `bdd/`.
+3. Escreva o cenário em linguagem Gherkin, seguindo o formato:
+   ```
+   Feature: [Nome da Feature]
+       Scenario: [Nome do Cenário]
+           Given [Pré-condição]
+           When [Ação]
+           Then [Resultado Esperado]
+   ```
+4. Utilize os dados de entrada e saída dos testes automatizados como base para os passos.
+5. Execute os testes para garantir que a automação está funcionando corretamente.
+
+## Instruções para criar o CSV com os casos de teste para importação no Jira
+
+1. Crie um arquivo `.csv` na pasta `csv/`.
+2. Utilize o seguinte formato para cada linha do arquivo:
+   ```
+   NOME;OBJETIVO;PRECONDICAO;STATUS;PRIORIDADE;ESTIMATIVA;SCRIPT
+   ```
+3. Preencha os campos com as informações correspondentes ao seu caso de teste.
+4. Salve o arquivo e utilize-o para importar os casos de teste no Jira.
