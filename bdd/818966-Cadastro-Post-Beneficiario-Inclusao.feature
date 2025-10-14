@@ -1,0 +1,61 @@
+Feature: Cadastro de Pessoas Físicas - Beneficiário - Inclusão - POST
+    Como um operador acessando o SQ4DEVS
+    Eu quero incluir e alterar dados de beneficiário
+    Para que a Valia consiga integrar de forma satisfatória com seus demais sistemas
+
+    Scenario: Inclusão de beneficiário com todos os campos obrigatórios preenchidos
+        Given que tenho um token de autenticação válido do SQ4DEVS
+        And possuo dados obrigatórios válidos para inclusão de beneficiário
+        And os campos obrigatórios PessoaFisica, ContratoParticipante, ContratoPlano, CPF e DataNascimento estão preenchidos
+        When faço uma requisição POST para "/pessoas_fisicas/beneficiario/solicitacao/inclusao"
+        Then recebo status code 200 ou 201
+        And a resposta contém os dados retornados correspondentes ao enviado
+        And não há erros na resposta
+        And o beneficiário foi incluído com sucesso no sistema
+
+    Scenario: Inclusão de beneficiário com campo obrigatório ausente
+        Given que tenho um token de autenticação válido do SQ4DEVS
+        And possuo dados para inclusão de beneficiário
+        And omito um campo obrigatório como CPF
+        When faço uma requisição POST para "/pessoas_fisicas/beneficiario/solicitacao/inclusao"
+        Then recebo status code 400
+        And a resposta contém mensagem de erro informando campo obrigatório ausente
+        And o beneficiário não é incluído no sistema
+
+    Scenario: Inclusão de beneficiário com dados inválidos
+        Given que tenho um token de autenticação válido do SQ4DEVS
+        And possuo dados para inclusão de beneficiário
+        And os dados contêm informações inválidas como CPF inválido ou data de nascimento futura
+        When faço uma requisição POST para "/pessoas_fisicas/beneficiario/solicitacao/inclusao"
+        Then recebo status code 400
+        And a resposta contém mensagem de erro informando dados inválidos
+        And o beneficiário não é incluído no sistema
+
+    Scenario: Alteração de beneficiário existente
+        Given que tenho um token de autenticação válido do SQ4DEVS
+        And existe um beneficiário já cadastrado no sistema
+        And possuo dados alterados para o beneficiário existente
+        When faço uma requisição POST para "/pessoas_fisicas/beneficiario/solicitacao/inclusao"
+        Then recebo status code 200 ou 201
+        And a resposta contém os dados alterados do beneficiário
+        And os dados foram atualizados corretamente no sistema
+        And uma consulta subsequente confirma as alterações
+
+    Scenario: Inclusão de beneficiário com campos opcionais preenchidos
+        Given que tenho um token de autenticação válido do SQ4DEVS
+        And possuo dados obrigatórios válidos para inclusão de beneficiário
+        And também possuo dados para campos opcionais como Nome, NomePai, NomeMae, Telefone, Email
+        When faço uma requisição POST para "/pessoas_fisicas/beneficiario/solicitacao/inclusao"
+        Then recebo status code 200 ou 201
+        And a resposta contém os dados do beneficiário incluído
+        And os campos opcionais foram persistidos corretamente no sistema
+        And todos os dados podem ser consultados posteriormente
+
+    Scenario: Inclusão de beneficiário sem autenticação
+        Given que não possuo token de autenticação
+        And possuo dados válidos para inclusão de beneficiário
+        When faço uma requisição POST para "/pessoas_fisicas/beneficiario/solicitacao/inclusao"
+        Then recebo status code 401
+        And a resposta contém mensagem de erro de autenticação
+        And o beneficiário não é incluído no sistema
+        And o acesso é negado devido à falta de autenticação
