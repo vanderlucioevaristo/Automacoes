@@ -430,7 +430,7 @@ describe("SCAF - Previdência - Beneficio - Instituto - Suite de Teste API", () 
         const body = JSON.stringify({
             "salario":5000        
         }); 
-        await criptografaDados('Vander', '82398/11918',body, entidade.publicKey);
+        await criptografaDados('Vander', '82398/11918',body, entidade1.publicKey);
         const sinqiaRequestHeader = global.queryStringCripto;
         corpo = global.bodyStringCripto;
 

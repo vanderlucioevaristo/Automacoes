@@ -15,7 +15,7 @@ const EscreveLog = require('./globals/escreveLog');
 const PayloadChamada = require("./globals/payloadChamada");
 
 // Seleciona a entidade para o teste
-const entidade = entidades.find((e) => e.nome === "VALIA");
+const entidade = entidades.find((e) => e.nome === "VISAOPREV");
 const rotaHeader = "Cadastro";
 const rotaUrl = "/Cadastro/processos";
 let codigoStatusChamada;

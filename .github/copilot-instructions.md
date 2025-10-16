@@ -38,6 +38,21 @@ let response, headers, descricaoTeste, params;
 2. Token is stored in `global.Bearer` for subsequent requests
 3. Always add `headers['Authorization'] = \`Bearer ${global.Bearer}\``
 
+### Create Body
+```javascript
+const body = JSON.stringify({
+    "field1": "value1",
+    "field2": "value2",
+    "field3": "value3"
+});
+```
+
+### Encrypt body and querystring
+
+await criptografaDados('Vander', '', body, entidade.publicKey);
+const sinqiaRequestHeader = global.queryStringCripto;
+corpo = global.bodyStringCripto;
+
 ### Header Management
 - **GET requests**: Use `HeaderChamada(entidade, rotaHeader, sinqiaRequestHeader)`
 - **POST requests**: Use `HeaderChamadaPost(entidade, rotaHeader)` (no X-SINQIA-Request)
@@ -70,7 +85,7 @@ afterEach(() => {
 ## BDD Integration
 
 - Test scenarios automatically generate `.feature` files in `bdd/`
-- CSV test case files are generated with format: `NOME;OBJETIVO;PRECONDICAO;STATUS;PRIORIDADE;ESTIMATIVA;SCRPIT`
+- CSV test case files are generated with format: `NOME;OBJETIVO;PRECONDICAO;STATUS;PRIORIDADE;ESTIMATIVA;FUNCIONALIDADE;SCRPIT`
 - BDD scripts are embedded as single-line entries in CSV files
 
 ## Entity Configuration
@@ -83,7 +98,7 @@ Entities are defined in `globals/entidades.js` with Basic auth and clientKey. Cu
 2. Use entity "VALIA" for new tests
 3. Implement standard authentication and header patterns  
 4. Generate BDD and CSV artifacts for test documentation
-5. Run tests with `npm test`
+5. Run tests with `npx jest --config jest.config.js` + current file name
 
 ## Key Globals
 
@@ -91,7 +106,7 @@ Entities are defined in `globals/entidades.js` with Basic auth and clientKey. Cu
 - `global.Bearer`: Authentication token
 - `global.apiResponse`: Last API response for debugging
 
-## Instruçoes para criar os BDD´s dos casos de teste
+## Instructions for creating the file with the BDD test scripts
 
 1. Identifique o cenário de teste que deseja automatizar.
 2. Crie um arquivo `.feature` correspondente na pasta `bdd/`.
@@ -106,7 +121,7 @@ Entities are defined in `globals/entidades.js` with Basic auth and clientKey. Cu
 4. Utilize os dados de entrada e saída dos testes automatizados como base para os passos.
 5. Execute os testes para garantir que a automação está funcionando corretamente.
 
-## Instruções para criar o CSV com os casos de teste para importação no Jira
+## Instructions for creating a .csv file with test cases for import into Jira
 
 1. Crie um arquivo `.csv` na pasta `csv/`.
 2. Utilize o seguinte formato para cada linha do arquivo:
