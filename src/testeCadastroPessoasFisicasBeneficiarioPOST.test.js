@@ -31,6 +31,7 @@ jest.setTimeout(60000);
 
 describe("SCAF - Previdência - Cadastro - Pessoas Físicas - Beneficiário - Suite de Teste API POST", () => {
 
+    //OK
     it.only("SCAF - Previdência - Cadastro - POST - Beneficiário - Dados obrigatórios válidos - Status code 200", async () => {
         descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Dados obrigatórios válidos - Status code 200";
         
@@ -74,6 +75,7 @@ describe("SCAF - Previdência - Cadastro - Pessoas Físicas - Beneficiário - Su
         expect(response.body).toHaveProperty("SituacaoDescricao", "Aguardando Autorização");
     });
 
+    //ok
     it.only("SCAF - Previdência - Cadastro - POST - Beneficiário - Dados obrigatórios válidos - Status code 200 - Visão", async () => {
         descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Dados obrigatórios válidos - Status code 200 - Visão";
 
@@ -118,7 +120,7 @@ describe("SCAF - Previdência - Cadastro - Pessoas Físicas - Beneficiário - Su
         expect(response.body).toHaveProperty("SituacaoDescricao", "Aguardando Autorização");
     });
 
-
+    //ok
     it.only("SCAF - Previdência - Cadastro - POST - Beneficiário - ContratoParticipante inexistente - Status code 400", async () => {
         descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - ContratoParticipante inexistente - Status code 400";
 
@@ -128,17 +130,16 @@ describe("SCAF - Previdência - Cadastro - Pessoas Físicas - Beneficiário - Su
         // Body com PessoaFisica nulo
         const body = JSON.stringify({
             "ContratoParticipante": 666666,
-            "Nome": "CARLOS ALBERTO PAIZAN",
-            "CPF": "03640819888",
-            "DataNascimento": "1961-07-16",
+            "Nome": "JOAO DE LOURDES MATIAS",
+            "CPF": "42582180653",
+            "DataNascimento": "1961-02-11",
             "Parentesco": 1,
-            "Indicado": false,
-            "Invalido": true,
+            "Indicado": true,
+            "Invalido": false,
             "PercentualPeculio": 20,
             "PercentualBefMorte": 10,
             "Prazo": 15
         });
-
         await criptografaDados('Vander', '', body, entidade.publicKey);
         const sinqiaRequestHeader = global.queryStringCripto;
         corpo = global.bodyStringCripto;
@@ -158,10 +159,11 @@ describe("SCAF - Previdência - Cadastro - Pessoas Físicas - Beneficiário - Su
         //Assert
         expect(response.statusCode).toBe(400);
         expect(response.body).toHaveProperty("mensagem", "Solicitacao Impropria");
-        expect(response.body.campos[0]).toHaveProperty("codigo_erro", "erro-cad-1516");
-        expect(response.body.campos[0]).toHaveProperty("mensagem", "Pessoa Física não encontrada para o parâmetro informado");
+        expect(response.body.campos[0]).toHaveProperty("codigo_erro", "erro-cad-1510");
+        expect(response.body.campos[0]).toHaveProperty("mensagem", "Participante não encontrado para o parâmetro informado");
     });
 
+    //ok
     it.only("SCAF - Previdência - Cadastro - POST - Beneficiário - ContratoParticipante nulo - Status code 400", async () => {
         descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - ContratoParticipante nulo - Status code 400";
         
@@ -205,6 +207,7 @@ describe("SCAF - Previdência - Cadastro - Pessoas Físicas - Beneficiário - Su
         expect(response.body.campos[0]).toHaveProperty("campo", "ContratoParticipante");
     });
 
+    //ok
     it.only("SCAF - Previdência - Cadastro - POST - Beneficiário - CPF Incorreto - Status code 400", async () => {
         descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - CPF Incorreto - Status code 400";
         
@@ -249,6 +252,7 @@ describe("SCAF - Previdência - Cadastro - Pessoas Físicas - Beneficiário - Su
         expect(response.body.campos[0]).toHaveProperty("campo", "CPF");
     });
 
+    //ok
     it.only("SCAF - Previdência - Cadastro - POST - Beneficiário - CPF Inexistente - Status code 400", async () => {
         descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - CPF Inexistente - Status code 400";
 
@@ -293,94 +297,7 @@ describe("SCAF - Previdência - Cadastro - Pessoas Físicas - Beneficiário - Su
         expect(response.body.campos[0]).toHaveProperty("valor", "87656108653");
     });
 
-    it.only("SCAF - Previdência - Cadastro - POST - Beneficiário - Data nascimento formato inválido - Status code 400", async () => {
-        descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Data nascimento formato inválido - Status code 400";
-
-        //Obtem o token de autenticação para o teste.
-        await obterToken(entidade.nome);
-
-        // Body com Data nascimento formato inválido
-        const body = JSON.stringify({
-            "ContratoParticipante": 283725,
-            "Nome": "JOAO DE LOURDES MATIAS",
-            "CPF": "42582180653",
-            "DataNascimento": "11-02-1961", //Data nascimento em formato inválido
-            "Parentesco": 1,
-            "Indicado": true,
-            "Invalido": false,
-            "PercentualPeculio": 20,
-            "PercentualBefMorte": 10,
-            "Prazo": 15
-        });
-
-        await criptografaDados('Vander', '', body, entidade.publicKey);
-        const sinqiaRequestHeader = global.queryStringCripto;
-        corpo = global.bodyStringCripto;
-
-        let headerChamadaPost = new HeaderChamadaPost(entidade, rotaHeader, sinqiaRequestHeader);
-        headers = headerChamadaPost.getHeaders();
-        headers['Authorization'] = `Bearer ${global.Bearer}`;
-
-        //Realiza a chamada para a API
-        response = await supertest(global.baseUrl)
-            .post(rotaUrl)
-            .set(headers)
-            .send(corpo);
-
-        global.apiResponse = response.body;
-
-        //Assert
-        expect(response.statusCode).toBe(400);
-        expect(response.body).toHaveProperty("mensagem", "Solicitacao Impropria");
-        expect(response.body.campos[0]).toHaveProperty("codigo_erro", "erro-cad-1516");
-        expect(response.body.campos[0]).toHaveProperty("mensagem", "Pessoa Física não encontrada para o parâmetro informado");
-        expect(response.body.campos[0]).toHaveProperty("campo", "DataNascimento");
-        expect(response.body.campos[0]).toHaveProperty("valor", "11-02-1961");
-    });
-
-    it.only("SCAF - Previdência - Cadastro - POST - Beneficiário - Data de nascimento futura - Status code 400", async () => {
-        descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Data de nascimento futura - Status code 400";
-        
-        //Obtem o token de autenticação para o teste.
-        await obterToken(entidade.nome);
-
-        // Body com data de nascimento futura
-        const body = JSON.stringify({
-            "ContratoParticipante": 283725,
-            "Nome": "JOAO DE LOURDES MATIAS",
-            "CPF": "42582180653",
-            "DataNascimento": "2030-01-01", //Data de nascimento futura
-            "Parentesco": 1,
-            "Indicado": true,
-            "Invalido": false,
-            "PercentualPeculio": 20,
-            "PercentualBefMorte": 10,
-            "Prazo": 15
-        });
-
-        await criptografaDados('Vander', '', body, entidade.publicKey);
-        const sinqiaRequestHeader = global.queryStringCripto;
-        corpo = global.bodyStringCripto;
-
-        let headerChamadaPost = new HeaderChamadaPost(entidade, rotaHeader, sinqiaRequestHeader);
-        headers = headerChamadaPost.getHeaders();
-        headers['Authorization'] = `Bearer ${global.Bearer}`;
-
-        //Realiza a chamada para a API
-        response = await supertest(global.baseUrl)
-            .post(rotaUrl)
-            .set(headers)
-            .send(corpo);
-
-        global.apiResponse = response.body;
-
-        //Assert
-        expect(response.statusCode).toBe(400);
-        expect(response.body).toHaveProperty("mensagem", "Solicitacao Impropria");
-        expect(response.body.campos[0]).toHaveProperty("codigo_erro");
-        expect(response.body.campos[0]).toHaveProperty("campo", "DataNascimento");
-    });
-
+    //ok
     it.only("SCAF - Previdência - Cadastro - POST - Beneficiário - Data de nascimento nula - Status code 400", async () => {
         descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Data de nascimento nula - Status code 400";
 
@@ -424,24 +341,68 @@ describe("SCAF - Previdência - Cadastro - Pessoas Físicas - Beneficiário - Su
         expect(response.body.campos[0]).toHaveProperty("campo", "DataNascimento");
     });
 
-    it("SCAF - Previdência - Cadastro - POST - Beneficiário - Percentual Pecúlio maior que 100 - Status code 400", async () => {
-        descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Percentual Pecúlio maior que 100 - Status code 400";
-        
+    //ok
+    it.only("SCAF - Previdência - Cadastro - POST - Beneficiário - Grau de parentesco nulo - Status code 400", async () => {
+        descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Grau de parentesco nulo - Status code 400";
+
+        //Obtem o token de autenticação para o teste.
+        await obterToken(entidade.nome);
+
+         const body = JSON.stringify({
+            "ContratoParticipante": 283725,
+            "Nome": "JOAO DE LOURDES MATIAS",
+            "CPF": "42582180653",
+            "DataNascimento": "1961-02-11", 
+            "Parentesco": null,
+            "Indicado": true,
+            "Invalido": false,
+            "PercentualPeculio": 20,
+            "PercentualBefMorte": 10,
+            "Prazo": 15
+        });
+
+        await criptografaDados('Vander', '', body, entidade.publicKey);
+        const sinqiaRequestHeader = global.queryStringCripto;
+        corpo = global.bodyStringCripto;
+
+        let headerChamadaPost = new HeaderChamadaPost(entidade, rotaHeader, sinqiaRequestHeader);
+        headers = headerChamadaPost.getHeaders();
+        headers['Authorization'] = `Bearer ${global.Bearer}`;
+
+        //Realiza a chamada para a API
+        response = await supertest(global.baseUrl)
+            .post(rotaUrl)
+            .set(headers)
+            .send(corpo);
+
+        global.apiResponse = response.body;
+        //Assert
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toHaveProperty("mensagem", "Solicitacao Impropria");
+        expect(response.body.campos[0]).toHaveProperty("codigo_erro", "erro-req-0001");
+        expect(response.body.campos[0]).toHaveProperty("mensagem", "Erro ao fazer requisição. Verifique os valores informados.");
+        expect(response.body.campos[0]).toHaveProperty("campo", "Parentesco");
+        expect(response.body.campos[0]).toHaveProperty("valor", "null");
+    });
+
+    it.only("SCAF - Previdência - Cadastro - POST - Beneficiário - Percentual Pecúlio maior que 100% - Status code 400", async () => {
+        descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Percentual Pecúlio maior que 100% - Status code 400";
+
         //Obtem o token de autenticação para o teste.
         await obterToken(entidade.nome);
 
         // Body com percentual maior que 100
-        const body = JSON.stringify({
-            "PessoaFisica": 12345,
-            "ContratoParticipante": 54321,
-            "ContratoPlano": 98765,
-            "Nome": "João Silva Santos",
-            "CPF": "12345678901",
-            "DataNascimento": "1990-05-15T00:00:00.000Z",
-            "Sexo": "M",
-            "BenefParentesco": 1,
-            "BenefPercentualPeculio": 150.0, // Percentual maior que 100
-            "BenefIndicado": true
+         const body = JSON.stringify({
+            "ContratoParticipante": 283725,
+            "Nome": "JOAO DE LOURDES MATIAS",
+            "CPF": "42582180653",
+            "DataNascimento": "1961-02-11", 
+            "Parentesco": 2,
+            "Indicado": true,
+            "Invalido": false,
+            "PercentualPeculio": 150,
+            "PercentualBefMorte": 10,
+            "Prazo": 15
         });
 
         await criptografaDados('Vander', '', body, entidade.publicKey);
@@ -467,24 +428,24 @@ describe("SCAF - Previdência - Cadastro - Pessoas Físicas - Beneficiário - Su
         expect(response.body.campos[0]).toHaveProperty("campo", "BenefPercentualPeculio");
     });
 
-    it("SCAF - Previdência - Cadastro - POST - Beneficiário - Percentual Pecúlio negativo - Status code 400", async () => {
+    it.only("SCAF - Previdência - Cadastro - POST - Beneficiário - Percentual Pecúlio negativo - Status code 400", async () => {
         descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Percentual Pecúlio negativo - Status code 400";
         
         //Obtem o token de autenticação para o teste.
         await obterToken(entidade.nome);
 
         // Body com percentual negativo
-        const body = JSON.stringify({
-            "PessoaFisica": 12345,
-            "ContratoParticipante": 54321,
-            "ContratoPlano": 98765,
-            "Nome": "João Silva Santos",
-            "CPF": "12345678901",
-            "DataNascimento": "1990-05-15T00:00:00.000Z",
-            "Sexo": "M",
-            "BenefParentesco": 1,
-            "BenefPercentualPeculio": -10.0, // Percentual negativo
-            "BenefIndicado": true
+         const body = JSON.stringify({
+            "ContratoParticipante": 283725,
+            "Nome": "JOAO DE LOURDES MATIAS",
+            "CPF": "42582180653",
+            "DataNascimento": "1961-02-11", 
+            "Parentesco": 3,
+            "Indicado": true,
+            "Invalido": false,
+            "PercentualPeculio": -10,
+            "PercentualBefMorte": 10,
+            "Prazo": 15
         });
 
         await criptografaDados('Vander', '', body, entidade.publicKey);
@@ -510,25 +471,66 @@ describe("SCAF - Previdência - Cadastro - Pessoas Físicas - Beneficiário - Su
         expect(response.body.campos[0]).toHaveProperty("campo", "BenefPercentualPeculio");
     });
 
-    it("SCAF - Previdência - Cadastro - POST - Beneficiário - Email inválido - Status code 400", async () => {
-        descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Email inválido - Status code 400";
-        
+    it.only("SCAF - Previdência - Cadastro - POST - Beneficiário - Percentual Pecúlio com decimal - Status code 200", async () => {
+        descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Percentual Pecúlio com decimal - Status code 200";
+
         //Obtem o token de autenticação para o teste.
         await obterToken(entidade.nome);
 
-        // Body com email inválido
-        const body = JSON.stringify({
-            "PessoaFisica": 12345,
-            "ContratoParticipante": 54321,
-            "ContratoPlano": 98765,
-            "Nome": "João Silva Santos",
-            "CPF": "12345678901",
-            "DataNascimento": "1990-05-15T00:00:00.000Z",
-            "Sexo": "M",
-            "Email": "email_invalido", // Email sem @
-            "BenefParentesco": 1,
-            "BenefPercentualPeculio": 50.0,
-            "BenefIndicado": true
+        // Body com percentual negativo
+         const body = JSON.stringify({
+            "ContratoParticipante": 283725,
+            "Nome": "JOAO DE LOURDES MATIAS",
+            "CPF": "42582180653",
+            "DataNascimento": "1961-02-11", 
+            "Parentesco": 2,
+            "Indicado": true,
+            "Invalido": false,
+            "PercentualPeculio": 30.25,
+            "PercentualBefMorte": 10,
+            "Prazo": 15
+        });
+
+        await criptografaDados('Vander', '', body, entidade.publicKey);
+        const sinqiaRequestHeader = global.queryStringCripto;
+        corpo = global.bodyStringCripto;
+
+        let headerChamadaPost = new HeaderChamadaPost(entidade, rotaHeader, sinqiaRequestHeader);
+        headers = headerChamadaPost.getHeaders();
+        headers['Authorization'] = `Bearer ${global.Bearer}`;
+
+        //Realiza a chamada para a API
+        response = await supertest(global.baseUrl)
+            .post(rotaUrl)
+            .set(headers)
+            .send(corpo);
+
+        global.apiResponse = response.body;
+
+        //Assert
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toHaveProperty("SituacaoDescricao", "Aguardando Autorização");
+
+    });
+
+    it.only("SCAF - Previdência - Cadastro - POST - Beneficiário - Percentual por morte maior que 100% - Status code 400", async () => {
+        descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Percentual por morte maior que 100% - Status code 400";
+
+        //Obtem o token de autenticação para o teste.
+        await obterToken(entidade.nome);
+
+        // Body com percentual maior que 100
+         const body = JSON.stringify({
+            "ContratoParticipante": 283725,
+            "Nome": "JOAO DE LOURDES MATIAS",
+            "CPF": "42582180653",
+            "DataNascimento": "1961-02-11", 
+            "Parentesco": 2,
+            "Indicado": true,
+            "Invalido": false,
+            "PercentualPeculio": 10,
+            "PercentualBefMorte": 150,
+            "Prazo": 15
         });
 
         await criptografaDados('Vander', '', body, entidade.publicKey);
@@ -551,28 +553,27 @@ describe("SCAF - Previdência - Cadastro - Pessoas Físicas - Beneficiário - Su
         expect(response.statusCode).toBe(400);
         expect(response.body).toHaveProperty("mensagem", "Solicitação Imprópria");
         expect(response.body.campos[0]).toHaveProperty("codigo_erro");
-        expect(response.body.campos[0]).toHaveProperty("campo", "Email");
+        expect(response.body.campos[0]).toHaveProperty("campo", "BenefPercentualPeculio");
     });
 
-    it("SCAF - Previdência - Cadastro - POST - Beneficiário - CEP inválido - Status code 400", async () => {
-        descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - CEP inválido - Status code 400";
-        
+    it.only("SCAF - Previdência - Cadastro - POST - Beneficiário - Percentual por morte negativo - Status code 400", async () => {
+        descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Percentual por morte negativo - Status code 400";
+
         //Obtem o token de autenticação para o teste.
         await obterToken(entidade.nome);
 
-        // Body com CEP inválido
-        const body = JSON.stringify({
-            "PessoaFisica": 12345,
-            "ContratoParticipante": 54321,
-            "ContratoPlano": 98765,
-            "Nome": "João Silva Santos",
-            "CPF": "12345678901",
-            "DataNascimento": "1990-05-15T00:00:00.000Z",
-            "Sexo": "M",
-            "CEP": "123", // CEP muito curto
-            "BenefParentesco": 1,
-            "BenefPercentualPeculio": 50.0,
-            "BenefIndicado": true
+        // Body com percentual negativo
+         const body = JSON.stringify({
+            "ContratoParticipante": 283725,
+            "Nome": "JOAO DE LOURDES MATIAS",
+            "CPF": "42582180653",
+            "DataNascimento": "1961-02-11", 
+            "Parentesco": 3,
+            "Indicado": true,
+            "Invalido": false,
+            "PercentualPeculio": 45,
+            "PercentualBefMorte": -30,
+            "Prazo": 15
         });
 
         await criptografaDados('Vander', '', body, entidade.publicKey);
@@ -595,28 +596,27 @@ describe("SCAF - Previdência - Cadastro - Pessoas Físicas - Beneficiário - Su
         expect(response.statusCode).toBe(400);
         expect(response.body).toHaveProperty("mensagem", "Solicitação Imprópria");
         expect(response.body.campos[0]).toHaveProperty("codigo_erro");
-        expect(response.body.campos[0]).toHaveProperty("campo", "CEP");
+        expect(response.body.campos[0]).toHaveProperty("campo", "BenefPercentualPeculio");
     });
 
-    it("SCAF - Previdência - Cadastro - POST - Beneficiário - Telefone inválido - Status code 400", async () => {
-        descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Telefone inválido - Status code 400";
-        
+    it.only("SCAF - Previdência - Cadastro - POST - Beneficiário - Percentual por morte com decimal - Status code 200", async () => {
+        descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Percentual por morte com decimal - Status code 200";
+
         //Obtem o token de autenticação para o teste.
         await obterToken(entidade.nome);
 
-        // Body com telefone inválido
-        const body = JSON.stringify({
-            "PessoaFisica": 12345,
-            "ContratoParticipante": 54321,
-            "ContratoPlano": 98765,
-            "Nome": "João Silva Santos",
-            "CPF": "12345678901",
-            "DataNascimento": "1990-05-15T00:00:00.000Z",
-            "Sexo": "M",
-            "Telefone": "123", // Telefone muito curto
-            "BenefParentesco": 1,
-            "BenefPercentualPeculio": 50.0,
-            "BenefIndicado": true
+        // Body com percentual negativo
+         const body = JSON.stringify({
+            "ContratoParticipante": 283725,
+            "Nome": "JOAO DE LOURDES MATIAS",
+            "CPF": "42582180653",
+            "DataNascimento": "1961-02-11", 
+            "Parentesco": 2,
+            "Indicado": true,
+            "Invalido": false,
+            "PercentualPeculio": 30,
+            "PercentualBefMorte": 10.11,
+            "Prazo": 15
         });
 
         await criptografaDados('Vander', '', body, entidade.publicKey);
@@ -636,13 +636,11 @@ describe("SCAF - Previdência - Cadastro - Pessoas Físicas - Beneficiário - Su
         global.apiResponse = response.body;
 
         //Assert
-        expect(response.statusCode).toBe(400);
-        expect(response.body).toHaveProperty("mensagem", "Solicitação Imprópria");
-        expect(response.body.campos[0]).toHaveProperty("codigo_erro");
-        expect(response.body.campos[0]).toHaveProperty("campo", "Telefone");
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toHaveProperty("SituacaoDescricao", "Aguardando Autorização");
     });
 
-    it("SCAF - Previdência - Cadastro - POST - Beneficiário - Body vazio - Status code 400", async () => {
+    it.only("SCAF - Previdência - Cadastro - POST - Beneficiário - Body vazio - Status code 400", async () => {
         descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Body vazio - Status code 400";
         
         //Obtem o token de autenticação para o teste.
@@ -669,120 +667,28 @@ describe("SCAF - Previdência - Cadastro - Pessoas Físicas - Beneficiário - Su
 
         //Assert
         expect(response.statusCode).toBe(400);
-        expect(response.body).toHaveProperty("mensagem", "Solicitação Imprópria");
-        expect(response.body.campos[0]).toHaveProperty("codigo_erro");
+        expect(response.body).toHaveProperty("mensagem", "Solicitacao Impropria");
+
     });
 
-    it("SCAF - Previdência - Cadastro - POST - Beneficiário - Com todos os campos opcionais preenchidos - Status code 200", async () => {
-        descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Com todos os campos opcionais preenchidos - Status code 200";
-        
+    it.only("SCAF - Previdência - Cadastro - POST - Beneficiário - Somente dados da pessoa preenchidos - Status code 400", async () => {
+        descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Somente dados da pessoa preenchidos - Status code 400";
+
         //Obtem o token de autenticação para o teste.
         await obterToken(entidade.nome);
 
-        // Body com todos os campos preenchidos
-        const body = JSON.stringify({
-            "PessoaFisica": 12345,
-            "ContratoParticipante": 54321,
-            "ContratoPlano": 98765,
-            "Nome": "Maria Oliveira Santos",
-            "NomePai": "José Oliveira",
-            "NomeMae": "Ana Santos Oliveira",
-            "CPF": "98765432101",
-            "NumeroIdentificacaoFiscal": "12345678901",
-            "DataNascimento": "1985-03-20T00:00:00.000Z",
-            "DataObito": null,
-            "Identidade": "123456789",
-            "UFIdentidade": "SP",
-            "OrgaoExpedidor": "SSP",
-            "DataExpedicao": "2010-01-15T00:00:00.000Z",
-            "Nacionalidade": "Brasileira",
-            "Naturalidade": "São Paulo",
-            "Sexo": "F",
-            "EstadoCivil": "Solteira",
-            "DependentesIRF": 2,
-            "MolestiaGrave": false,
-            "DataInicioMolestiaGrave": null,
-            "DataFinalMolestiaGrave": null,
-            "DataRecadastramento": "2024-01-10T00:00:00.000Z",
-            "PoliticamenteExposto": false,
-            "IAT": true,
-            "BenefEscolaridade": 3,
-            "BenefParentesco": 2,
-            "BenefPercentualPeculio": 100.0,
-            "BenefPercentualPeculioUnico": 50.0,
-            "BenefPercentualSeguroVidaVG": 75.0,
-            "BenefPercentualSeguroVidaAPC": 25.0,
-            "BenefIndicado": true,
-            "Ocupacao": "Engenheira",
-            "NumeroINSS": 123456789,
-            "DigitoINSS": 12,
-            "EspecieINSS": 1,
-            "DataFiliacaoInss": "2010-05-01T00:00:00.000Z",
-            "ResidenteExterior": 0,
-            "CEP": "01234567",
-            "ZipCode": "",
-            "Pais": "Brasil",
-            "UF": "SP",
-            "Cidade": "São Paulo",
-            "Bairro": "Centro",
-            "Endereco": "Rua das Flores, 123",
-            "Telefone": "11987654321",
-            "TelefoneComercial": "1133334444",
-            "TelefoneCelular": "11999887766",
-            "Email": "maria@email.com",
-            "EmailPessoal": "maria.pessoal@email.com",
-            "DestinoEmail": 1,
-            "TipoDeficiencia": 0,
-            "Prazo": 30,
-            "UnidadeTempoPrazo": "DIAS",
-            "ParticipanteSA": 0,
-            "PepOcupacao": 0,
-            "PepParentesco": 0,
-            "DependenteIRF": true,
-            "DescricaoTipoGrauParentesco": "Filha",
-            "NomeSocial": "Maria Oliveira"
-        });
-
-        await criptografaDados('Vander', '', body, entidade.publicKey);
-        const sinqiaRequestHeader = global.queryStringCripto;
-        corpo = global.bodyStringCripto;
-
-        let headerChamadaPost = new HeaderChamadaPost(entidade, rotaHeader, sinqiaRequestHeader);
-        headers = headerChamadaPost.getHeaders();
-        headers['Authorization'] = `Bearer ${global.Bearer}`;
-
-        //Realiza a chamada para a API
-        response = await supertest(global.baseUrl)
-            .post(rotaUrl)
-            .set(headers)
-            .send(corpo);
-
-        global.apiResponse = response.body;
-
-        //Assert
-        expect(response.statusCode).toBe(200);
-        expect(response.body).toHaveProperty("mensagem");
-    });
-
-    it("SCAF - Previdência - Cadastro - POST - Beneficiário - Data de óbito anterior ao nascimento - Status code 400", async () => {
-        descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Data de óbito anterior ao nascimento - Status code 400";
-        
-        //Obtem o token de autenticação para o teste.
-        await obterToken(entidade.nome);
-
-        // Body com data de óbito anterior ao nascimento
-        const body = JSON.stringify({
-            "PessoaFisica": 12345,
-            "ContratoParticipante": 54321,
-            "ContratoPlano": 98765,
-            "Nome": "João Silva Santos",
-            "CPF": "12345678901",
-            "DataNascimento": "1990-05-15T00:00:00.000Z",
-            "DataObito": "1985-03-20T00:00:00.000Z", // Data anterior ao nascimento
-            "Sexo": "M",
-            "BenefParentesco": 1,
-            "BenefPercentualPeculio": 50.0,
-            "BenefIndicado": true
+        // Body com percentual negativo
+         const body = JSON.stringify({
+            "ContratoParticipante": 283725,
+            "Nome": "JOAO DE LOURDES MATIAS",
+            "CPF": "42582180653",
+            "DataNascimento": "1961-02-11", 
+            "Parentesco": null,
+            "Indicado": null,
+            "Invalido": null,
+            "PercentualPeculio": null,
+            "PercentualBefMorte": null,
+            "Prazo": null
         });
 
         await criptografaDados('Vander', '', body, entidade.publicKey);
@@ -803,29 +709,28 @@ describe("SCAF - Previdência - Cadastro - Pessoas Físicas - Beneficiário - Su
 
         //Assert
         expect(response.statusCode).toBe(400);
-        expect(response.body).toHaveProperty("mensagem", "Solicitação Imprópria");
-        expect(response.body.campos[0]).toHaveProperty("codigo_erro");
-        expect(response.body.campos[0]).toHaveProperty("campo", "DataObito");
+        expect(response.body.campos[0]).toHaveProperty("campo", "beneficiarioRequest.Parentesco, beneficiarioRequest.Indicado, beneficiarioRequest.Invalido, beneficiarioRequest.PercentualPeculio, beneficiarioRequest.PercentualBefMorte, beneficiarioRequest.Prazo");
+        expect(response.body.campos[0]).toHaveProperty("valor", "null, null, null, null, null, null");
     });
 
-    it("SCAF - Previdência - Cadastro - POST - Beneficiário - Campos numéricos com valores extremos - Status code 400", async () => {
-        descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Campos numéricos com valores extremos - Status code 400";
-        
+    it.only("SCAF - Previdência - Cadastro - POST - Beneficiário - Prazo negativo - Status code 400", async () => {
+        descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Prazo negativo - Status code 400";
+
         //Obtem o token de autenticação para o teste.
         await obterToken(entidade.nome);
 
-        // Body com valores extremos
+        // Body com dados obrigatórios válidos
         const body = JSON.stringify({
-            "PessoaFisica": -1, // Valor negativo
-            "ContratoParticipante": 54321,
-            "ContratoPlano": 98765,
-            "Nome": "João Silva Santos",
-            "CPF": "12345678901",
-            "DataNascimento": "1990-05-15T00:00:00.000Z",
-            "Sexo": "M",
-            "BenefParentesco": 1,
-            "BenefPercentualPeculio": 50.0,
-            "BenefIndicado": true
+            "ContratoParticipante": 283725,
+            "Nome": "JOAO DE LOURDES MATIAS",
+            "CPF": "42582180653",
+            "DataNascimento": "1961-02-11",
+            "Parentesco": 1,
+            "Indicado": true,
+            "Invalido": false,
+            "PercentualPeculio": 20,
+            "PercentualBefMorte": 10,
+            "Prazo": -10
         });
 
         await criptografaDados('Vander', '', body, entidade.publicKey);
@@ -846,26 +751,27 @@ describe("SCAF - Previdência - Cadastro - Pessoas Físicas - Beneficiário - Su
 
         //Assert
         expect(response.statusCode).toBe(400);
-        expect(response.body).toHaveProperty("mensagem", "Solicitação Imprópria");
-        expect(response.body.campos[0]).toHaveProperty("codigo_erro");
-        expect(response.body.campos[0]).toHaveProperty("campo", "PessoaFisica");
+        expect(response.body).toHaveProperty("mensagem", "Solicitacao Impropria");
     });
 
-    it("SCAF - Previdência - Cadastro - POST - Beneficiário - Sem token de autorização - Status code 401", async () => {
-        descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Sem token de autorização - Status code 401";
-        
-        // Body com dados válidos
+    it.only("SCAF - Previdência - Cadastro - POST - Beneficiário - Prazo igual a zero - Status code 400", async () => {
+        descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Prazo igual a zero - Status code 400";
+
+        //Obtem o token de autenticação para o teste.
+        await obterToken(entidade.nome);
+
+        // Body com dados obrigatórios válidos
         const body = JSON.stringify({
-            "PessoaFisica": 12345,
-            "ContratoParticipante": 54321,
-            "ContratoPlano": 98765,
-            "Nome": "João Silva Santos",
-            "CPF": "12345678901",
-            "DataNascimento": "1990-05-15T00:00:00.000Z",
-            "Sexo": "M",
-            "BenefParentesco": 1,
-            "BenefPercentualPeculio": 50.0,
-            "BenefIndicado": true
+            "ContratoParticipante": 283725,
+            "Nome": "JOAO DE LOURDES MATIAS",
+            "CPF": "42582180653",
+            "DataNascimento": "1961-02-11",
+            "Parentesco": 1,
+            "Indicado": true,
+            "Invalido": false,
+            "PercentualPeculio": 20,
+            "PercentualBefMorte": 10,
+            "Prazo": 0
         });
 
         await criptografaDados('Vander', '', body, entidade.publicKey);
@@ -885,8 +791,49 @@ describe("SCAF - Previdência - Cadastro - Pessoas Físicas - Beneficiário - Su
         global.apiResponse = response.body;
 
         //Assert
-        expect(response.statusCode).toBe(401);
-        expect(response.body).toHaveProperty("mensagem");
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toHaveProperty("mensagem", "Solicitacao Impropria");
+    });
+
+    it.only("SCAF - Previdência - Cadastro - POST - Beneficiário - Prazo nulo - Status code 400", async () => {
+        descricaoTeste = "SCAF - Previdência - Cadastro - POST - Beneficiário - Prazo nulo - Status code 400";
+
+        //Obtem o token de autenticação para o teste.
+        await obterToken(entidade.nome);
+
+        // Body com dados obrigatórios válidos
+        const body = JSON.stringify({
+            "ContratoParticipante": 283725,
+            "Nome": "JOAO DE LOURDES MATIAS",
+            "CPF": "42582180653",
+            "DataNascimento": "1961-02-11",
+            "Parentesco": 1,
+            "Indicado": true,
+            "Invalido": false,
+            "PercentualPeculio": 20,
+            "PercentualBefMorte": 10,
+            "Prazo": null
+        });
+
+        await criptografaDados('Vander', '', body, entidade.publicKey);
+        const sinqiaRequestHeader = global.queryStringCripto;
+        corpo = global.bodyStringCripto;
+
+        let headerChamadaPost = new HeaderChamadaPost(entidade, rotaHeader, sinqiaRequestHeader);
+        headers = headerChamadaPost.getHeaders();
+        headers['Authorization'] = `Bearer ${global.Bearer}`;
+
+        //Realiza a chamada para a API
+        response = await supertest(global.baseUrl)
+            .post(rotaUrl)
+            .set(headers)
+            .send(corpo);
+
+        global.apiResponse = response.body;
+
+        //Assert
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toHaveProperty("mensagem", "Solicitacao Impropria");
     });
 
     afterEach(() => {
