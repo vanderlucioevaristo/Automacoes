@@ -1,0 +1,51 @@
+NOME;OBJETIVO;PRECONDICAO;STATUS;PRIORIDADE;ESTIMATIVA;FUNCIONALIDADE;SCRIPT
+SCAF - Previdência - Cadastro - PUT - Beneficiário - Dados obrigatórios válidos - Status code 200;Validar a atualização de beneficiário com dados obrigatórios válidos;Token de autenticação válido e dados obrigatórios preenchidos;PARA EXECUTAR;ALTA;00:20;SCAF Plus - SCAF - Previdência/Cadastro/Beneficiário;"Given que tenho um token de autenticação válido
+And possuo dados obrigatórios válidos do beneficiário
+When faço uma requisição PUT para \"/Cadastro/v2/beneficiario\" com os dados:
+| Nome                     | CPF          | DataNascimento | Parentesco | Indicado | Invalido | PercentualPeculio | PercentualBefMorte | Prazo |
+| RAIMUNDO UMBERTO TEIXEIRA| 26443554604  | 1957-05-08     | 1          | true     | true     | 35                | 70                 | 20    |
+Then recebo status code 200
+And a resposta contém \"ProcessoDescricao\" igual a \"ALTERACAO_BENEFICIARIO\"
+And a resposta contém \"Situacao\" igual a 5
+And a resposta contém \"SituacaoDescricao\" igual a \"Aguardando Autorização\""
+SCAF - Previdência - Cadastro - PUT - Beneficiário - Uma pessoa inexistente - Status code 400;Validar mensagem de erro ao tentar atualizar beneficiário inexistente;Token de autenticação válido e dados de beneficiário inexistente;PARA EXECUTAR;ALTA;00:15;SCAF Plus - SCAF - Previdência/Cadastro/Beneficiário;"Given que tenho um token de autenticação válido
+And envio dados de beneficiário inexistente
+When faço uma requisição PUT para \"/Cadastro/v2/beneficiario\" com os dados:
+| Nome                   | CPF          | DataNascimento | Parentesco | Indicado | Invalido | PercentualPeculio | PercentualBefMorte | Prazo |
+| VANDER LUCIO EVARISTO | 87656108653  | 1974-08-28     | 1          | true     | true     | 35                | 70                 | 20    |
+Then recebo status code 400
+And a resposta contém \"mensagem\" igual a \"Solicitacao Impropria\"
+And a resposta contém \"mensagem\" igual a \"Pessoa Física não encontrada para o parâmetro informado\""
+SCAF - Previdência - Cadastro - PUT - Beneficiário - Somente com os dados da pessoa - Status code 400;Validar mensagem de erro ao tentar atualizar apenas com os dados da pessoa, sem campos obrigatórios de beneficiário;Token de autenticação válido e dados incompletos;PARA EXECUTAR;ALTA;00:15;SCAF Plus - SCAF - Previdência/Cadastro/Beneficiário;"Given que tenho um token de autenticação válido
+And envio apenas os dados da pessoa sem os campos obrigatórios de beneficiário
+When faço uma requisição PUT para \"/Cadastro/v2/beneficiario\" com os dados:
+| Nome                     | CPF          | DataNascimento | Parentesco | Indicado | Invalido | PercentualPeculio | PercentualBefMorte | Prazo |
+| RAIMUNDO UMBERTO TEIXEIRA| 26443554604  | 1957-05-08     | null       | null     | null     | null              | null               | null  |
+Then recebo status code 400
+And a resposta contém \"mensagem\" igual a \"Solicitacao Impropria\"
+And a resposta contém \"mensagem\" igual a \"Erro ao fazer requisição. Verifique os valores informados.\""
+SCAF - Previdência - Cadastro - PUT - Beneficiário - Contrato Participante inexistente - Status code 400;Validar mensagem de erro ao informar contrato participante inexistente;Token de autenticação válido e contrato participante inexistente;PARA EXECUTAR;ALTA;00:15;SCAF Plus - SCAF - Previdência/Cadastro/Beneficiário;"Given que tenho um token de autenticação válido
+And envio dados com contrato participante inexistente
+When faço uma requisição PUT para \"/Cadastro/v2/beneficiario\" com os dados:
+| Nome                     | CPF          | DataNascimento | Parentesco | Indicado | Invalido | PercentualPeculio | PercentualBefMorte | Prazo |
+| RAIMUNDO UMBERTO TEIXEIRA| 26443554604  | 1957-05-08     | 1          | true     | true     | 35                | 70                 | 20    |
+Then recebo status code 400
+And a resposta contém \"mensagem\" igual a \"Solicitacao Impropria\"
+And a resposta contém \"mensagem\" igual a \"Participante não encontrado para o parâmetro informado\""
+SCAF - Previdência - Cadastro - PUT - Beneficiário - Beneficiário inexistente - Status code 400;Validar mensagem de erro ao informar beneficiário inexistente;Token de autenticação válido e beneficiário inexistente;PARA EXECUTAR;ALTA;00:15;SCAF Plus - SCAF - Previdência/Cadastro/Beneficiário;"Given que tenho um token de autenticação válido
+And envio dados com beneficiário inexistente
+When faço uma requisição PUT para \"/Cadastro/v2/beneficiario\" com os dados:
+| Nome                     | CPF          | DataNascimento | Parentesco | Indicado | Invalido | PercentualPeculio | PercentualBefMorte | Prazo |
+| RAIMUNDO UMBERTO TEIXEIRA| 26443554604  | 1957-05-08     | 1          | true     | true     | 35                | 70                 | 20    |
+Then recebo status code 400
+And a resposta contém \"mensagem\" igual a \"Solicitacao Impropria\"
+And a resposta contém \"mensagem\" igual a \"Beneficiário não encontrado para o parâmetro informado\""
+SCAF - Previdência - Cadastro - PUT - Beneficiário - ContratoParticipante e Beneficiário nulos - Status code 400;Validar mensagem de erro ao informar contratoParticipante e beneficiário nulos;Token de autenticação válido e campos nulos;PARA EXECUTAR;ALTA;00:15;SCAF Plus - SCAF - Previdência/Cadastro/Beneficiário;"Given que tenho um token de autenticação válido
+And envio dados com contratoParticipante e beneficiário nulos
+When faço uma requisição PUT para \"/Cadastro/v2/beneficiario\" com os dados:
+| Nome                     | CPF          | DataNascimento | Parentesco | Indicado | Invalido | PercentualPeculio | PercentualBefMorte | Prazo |
+| RAIMUNDO UMBERTO TEIXEIRA| 26443554604  | 1957-05-08     | 1          | true     | true     | 35                | 70                 | 20    |
+Then recebo status code 400
+And a resposta contém \"mensagem\" igual a \"Solicitacao Impropria\"
+And a resposta contém \"mensagem\" igual a \"Erro ao fazer requisição. Verifique os valores informados.\"
+And a resposta contém \"campo\" igual a \"contratoParticipante, beneficiario\""
